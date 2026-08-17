@@ -35,6 +35,8 @@
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit, calc}
 
 % Customize header/footer
 \setbeamertemplate{navigation symbols}{}
@@ -151,28 +153,28 @@
     \begin{block}{\textbf{Objective 1: Statistical EDA \& Integrity}}
       \small Fully evaluate statistical moments, probability distributions, skewness, kurtosis, and correlation structure across 14,992 records.
     \end{block}
-    \vspace{0.3em}
+    \vspace{0.4em}
     \begin{block}{\textbf{Objective 2: Standardized Pipeline Design}}
       \small Build leak-free Scikit-Learn pipelines encapsulating \texttt{StandardScaler} with regression estimators to eliminate data leakage.
     \end{block}
-    \vspace{0.3em}
-    \begin{block}{\textbf{Objective 3: Hardware Acceleration}}
-      \small Deploy NVIDIA CUDA GPU computing for high-throughput tree boosting (XGBoost GPU) and multi-core CPU parallel execution.
+    \vspace{0.4em}
+    \begin{block}{\textbf{Objective 3: Systematic 5-Fold Tuning}}
+      \small Perform exhaustive parameter sweeps across 10 diverse ML models using 5-fold cross-validation (\texttt{GridSearchCV}) scoring for negative MAE.
     \end{block}
   \end{column}
 
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Objective 4: Systematic 5-Fold Tuning}}
-      \small Perform exhaustive parameter sweeps across 10 diverse ML models using 5-fold cross-validation (\texttt{GridSearchCV}) scoring for negative MAE.
-    \end{block}
-    \vspace{0.3em}
-    \begin{block}{\textbf{Objective 5: Multi-Model Benchmarking}}
+    \begin{block}{\textbf{Objective 4: Multi-Model Benchmarking}}
       \small Quantitatively rank all 10 baseline and tuned models across Train/Test MAE, RMSE, $R^2$, and inference execution latencies.
     \end{block}
-    \vspace{0.3em}
-    \begin{block}{\textbf{Objective 6: Diagnostic Visual Analytics}}
-      \small Develop high-precision parity bounds, residual homoscedasticity, error CDF curves, and feature importance rankings.
+    \vspace{0.4em}
+    \begin{block}{\textbf{Objective 5: Diagnostic Visual Analytics}}
+      \small Develop high-precision parity bounds ($\pm 5\% / \pm 10\%$), residual homoscedasticity, error CDF curves, and feature importance rankings.
     \end{block}
+    \vspace{0.4em}
+    \begin{exampleblock}{\textbf{Phase 1 Target Output}}
+      \footnotesize Deliver a validated, highly accurate, lightweight ML regression engine ready for edge deployment.
+    \end{exampleblock}
   \end{column}
 \end{columns}
 \end{frame}
@@ -356,37 +358,57 @@
 \end{frame}
 
 % ------------------------------------------------------------------------------
-% SLIDE 11: METHODOLOGY PIPELINE & GPU ACCELERATION
+% SLIDE 11: METHODOLOGY PIPELINE FLOW DIAGRAM (TIKZ)
 % ------------------------------------------------------------------------------
-\begin{frame}{Methodology Pipeline \& Hardware Acceleration}
+\begin{frame}{Methodology Pipeline Architecture}
+\begin{center}
+\resizebox{0.96\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=0.45cm and 0.55cm,
+  stage/.style={rectangle, draw=NavyPrimary, fill=CardBg, text=DarkSlate, rounded corners=4pt, minimum height=1.35cm, align=center, font=\scriptsize, line width=0.8pt},
+  pipe/.style={rectangle, draw=TealSecondary, fill=TealSecondary!12, text=NavyPrimary, rounded corners=4pt, minimum height=1.35cm, align=center, font=\scriptsize\bfseries, line width=1pt},
+  best/.style={rectangle, draw=AccentGreen, fill=AccentGreen!15, text=DarkSlate, rounded corners=4pt, minimum height=1.35cm, align=center, font=\scriptsize\bfseries, line width=1.1pt},
+  arrow/.style={thick, ->, >=stealth, color=NavyPrimary, line width=1.2pt}
+]
+
+% Row 1: Data Ingestion & Splitting & Pipeline
+\node[stage, text width=2.8cm] (d1) {\textbf{1. Data Ingestion \& EDA}\\14,992 Cycles | 7 Features\\Normality, VIF, PCA};
+\node[stage, text width=2.6cm, right=of d1] (d2) {\textbf{2. Data Splitting}\\80\% Train (11,993)\\20\% Test (2,999)};
+\node[pipe, text width=2.9cm, right=of d2] (d3) {\textbf{3. Pipeline Architecture}\\\texttt{StandardScaler}\\+ Regressor Estimator};
+\node[stage, text width=2.8cm, right=of d3] (d4) {\textbf{4. 10 ML Algorithms}\\Bagging, Boosting,\\Trees, KNN, Ridge};
+
+% Row 2: 5-Fold CV & Evaluation & Output
+\node[stage, text width=2.8cm, below=1.1cm of d1] (d8) {\textbf{Winning Model}\\Extra Trees Regressor\\$R^2=0.9971$ | MAE=7.71 cyc};
+\node[stage, text width=2.6cm, right=of d8] (d7) {\textbf{7. Presentation Diagnostics}\\Parity ($\pm 5\% / \pm 10\%$)\\Residuals, CDF, Importance};
+\node[stage, text width=2.9cm, right=of d7] (d6) {\textbf{6. Test Set Evaluation}\\2,999 Unseen Cycles\\MAE, RMSE, $R^2$, Latency};
+\node[pipe, text width=2.8cm, right=of d6] (d5) {\textbf{5. 5-Fold GridSearchCV}\\CUDA GPU Acceleration\\Scoring: $-\text{MAE}$};
+
+% Connectors Row 1
+\draw[arrow] (d1) -- (d2);
+\draw[arrow] (d2) -- (d3);
+\draw[arrow] (d3) -- (d4);
+
+% Connect Row 1 to Row 2
+\draw[arrow] (d4.south) -- (d5.north);
+
+% Connectors Row 2
+\draw[arrow] (d5) -- (d6);
+\draw[arrow] (d6) -- (d7);
+\draw[arrow] (d7) -- (d8);
+
+\end{tikzpicture}%
+}
+\end{center}
+\vspace{-0.3em}
 \begin{columns}[T]
-  \begin{column}{0.5\textwidth}
-    \begin{block}{\textbf{Hardware Acceleration Architecture}}
-      \small
-      \begin{itemize}
-        \item \textbf{GPU}: NVIDIA GeForce RTX 2050 Laptop GPU.
-        \item \textbf{Compute Engine}: CUDA 12.6 / 13.1 Runtime.
-        \item \textbf{Framework}: PyTorch CUDA (\texttt{torch 2.13.0+cu126}) and XGBoost GPU backend (\texttt{tree\_method='hist'}, \texttt{device='cuda'}).
-        \item \textbf{CPU Multi-threading}: Scikit-Learn and LightGBM parallelized using \texttt{n\_jobs=-1}.
-      \end{itemize}
-    \end{block}
-    \vspace{0.3em}
-    \begin{block}{\textbf{Leak-Free Pipeline Architecture}}
-      \small
-      \texttt{Pipeline([('scaler', StandardScaler()), ('model', Regressor)])} guarantees that scaling transformations are fitted strictly on training folds.
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Leak-Free Pipeline Encapsulation}}
+      \scriptsize Standard scaling transformations are fitted strictly on internal training folds, preventing data leakage during 5-fold cross-validation.
     \end{block}
   \end{column}
-
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{5-Fold Cross-Validation \& Tuning}}
-      \small
-      \begin{itemize}
-        \item \textbf{Data Partitioning}: 80/20 train-test split (11,993 train / 2,999 test cycles).
-        \item \textbf{Cross-Validation}: 5-Fold Stratified K-Fold (\texttt{KFold(n\_splits=5, shuffle=True, seed=42)}).
-        \item \textbf{Hyperparameter Sweep}: Exhaustive \texttt{GridSearchCV} optimizing:
-        $$\text{Scoring} = -\text{MAE} = -\frac{1}{N}\sum_{i=1}^N |y_i - \hat{y}_i|$$
-        \item Total fits executed across grid: \textbf{>180 fold iterations}.
-      \end{itemize}
+    \begin{block}{\textbf{Systematic Hyperparameter Optimization}}
+      \scriptsize Exhaustive parameter sweeps evaluate >180 fold fits scoring for negative MAE to maximize generalization on unseen cycles.
     \end{block}
   \end{column}
 \end{columns}
@@ -493,7 +515,7 @@
       \small
       \begin{enumerate}
         \item \textbf{Standardized Pipeline}: Built leak-free scaling and 5-fold cross-validation architecture.
-        \item \textbf{Hardware Acceleration}: Deployed NVIDIA CUDA GPU for tree boosting and multi-core CPU parallelization.
+        \item \textbf{GPU Acceleration}: Deployed NVIDIA CUDA GPU for tree boosting and multi-core CPU parallelization.
         \item \textbf{Algorithmic Benchmark}: Evaluated 10 distinct ML architectures; identified \textbf{Extra Trees} ($R^2 = 0.9971$, $\text{MAE} = 7.71$ cyc) and \textbf{Random Forest} ($R^2 = 0.9956$, $\text{MAE} = 9.48$ cyc) as top performers.
         \item \textbf{Secondary Pipeline}: Implemented feature extraction for the official NASA PCoE 4-cell repository.
       \end{enumerate}
