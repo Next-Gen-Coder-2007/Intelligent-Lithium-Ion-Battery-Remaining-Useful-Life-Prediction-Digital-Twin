@@ -13,6 +13,7 @@
 \definecolor{AccentRed}{RGB}{220, 38, 38}       % #DC2626
 \definecolor{AccentGreen}{RGB}{22, 163, 74}     % #16A34A
 \definecolor{CardBg}{RGB}{241, 245, 249}        % #F1F5F9
+\definecolor{PillBg}{RGB}{224, 242, 254}        % #E0F2FE
 
 \setbeamercolor{palette primary}{bg=NavyPrimary, fg=white}
 \setbeamercolor{palette secondary}{bg=TealSecondary, fg=white}
@@ -38,18 +39,18 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows, positioning, fit, calc}
 
-% Customize header/footer
+% Customize header/footer (Clean footline without Phase-1 text)
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}{
   \leavevmode%
   \hbox{%
-  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+  \begin{beamercolorbox}[wd=.35\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
     \usebeamerfont{author in head/foot}Group 11 $\bullet$ Battery RUL Prediction Digital Twin
   \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-    \usebeamerfont{title in head/foot}Phase 1: Machine Learning Benchmark
+  \begin{beamercolorbox}[wd=.40\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}Machine Learning Pipeline \& Empirical Benchmarking
   \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
     \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
   \end{beamercolorbox}}%
   \vskip0pt%
@@ -59,10 +60,10 @@
 % PRESENTATION METADATA
 % ==============================================================================
 \title[Battery RUL Prediction Digital Twin]{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}
-\subtitle{Phase 1: Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}
+\subtitle{Data-Driven Machine Learning Pipeline, 5-Fold Cross-Validation, and Multi-Model Optimization}
 \author[Group 11]{Group No: 11}
 \institute[Department of ML \& DS]{Department of Machine Learning \& Data Science}
-\date[\today]{Semester Project Presentation | Version 1.0}
+\date[\today]{Semester Project Presentation}
 
 % ==============================================================================
 % DOCUMENT BEGINS
@@ -70,44 +71,65 @@
 \begin{document}
 
 % ------------------------------------------------------------------------------
-% SLIDE 1: TITLE SLIDE WITH GROUP 11 & 5 TEAM MEMBERS
+% SLIDE 1: PREMIUM ACADEMIC TITLE SLIDE
 % ------------------------------------------------------------------------------
 \begin{frame}[plain]
-  \vspace{0.4em}
+  \vspace{0.2em}
+  % Top decorative accent bar
   \begin{center}
-    {\Large \textbf{\textcolor{NavyPrimary}{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}}}\\[0.3em]
-    {\normalsize \textbf{\textcolor{TealSecondary}{Phase 1: Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}}}\\[0.5em]
-    \textcolor{DarkSlate}{\rule{0.88\textwidth}{0.8pt}}\\[0.4em]
-    {\small \textbf{\textcolor{NavyPrimary}{Group No: 11}} \quad $\vert$ \quad \textbf{Department of Machine Learning \& Data Science}}\\[0.5em]
+    \begin{tikzpicture}
+      \fill[NavyPrimary] (0,0) rectangle (7.5, 0.06);
+      \fill[TealSecondary] (7.5,0) rectangle (14.0, 0.06);
+    \end{tikzpicture}
   \end{center}
+  \vspace{-0.3em}
 
+  % Title & Subtitle Hierarchy
+  \begin{center}
+    {\fontsize{15pt}{18pt}\selectfont \textbf{\textcolor{NavyPrimary}{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}}}\\[0.3em]
+    {\fontsize{10.5pt}{13pt}\selectfont \textbf{\textcolor{TealSecondary}{Data-Driven Machine Learning Pipeline, 5-Fold Cross-Validation, and Multi-Model Optimization}}}\\[0.6em]
+    
+    % Group Pill Badge & Department Banner
+    \begin{tikzpicture}
+      \node[fill=NavyPrimary, text=white, rounded corners=3pt, font=\scriptsize\bfseries, inner sep=3.5pt] at (0,0) {GROUP NO: 11};
+      \node[text=DarkSlate, font=\scriptsize\bfseries, right=0.3cm of current bounding box.east] {Department of Machine Learning \& Data Science};
+    \end{tikzpicture}
+  \end{center}
+  \vspace{-0.2em}
+
+  % Team Members & Project Metadata Cards
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{block}{\textbf{Team Members (1 -- 3)}}
-        \footnotesize
+      \begin{beamercolorbox}[rounded=true,shadow=false,wd=\textwidth,sep=5pt]{block body}
+        \textbf{\textcolor{NavyPrimary}{\scriptsize TEAM MEMBERS (1 -- 3):}}\\[0.25em]
+        \scriptsize
         \begin{tabular}{@{}ll@{}}
           \textbf{1.} Gandrothu Karthik & \textbf{Roll No:} 22A91A0501 \\
-          \textbf{2.} Subas M & \textbf{Roll No:} 22A91A0502 \\
-          \textbf{3.} Team Member 3 & \textbf{Roll No:} 22A91A0503 \\
+          \textbf{2.} Subas M           & \textbf{Roll No:} 22A91A0502 \\
+          \textbf{3.} Team Member 3     & \textbf{Roll No:} 22A91A0503 \\
         \end{tabular}
-      \end{block}
+      \end{beamercolorbox}
     \end{column}
 
     \begin{column}{0.48\textwidth}
-      \begin{block}{\textbf{Team Members (4 -- 5) \& Project Details}}
-        \footnotesize
+      \begin{beamercolorbox}[rounded=true,shadow=false,wd=\textwidth,sep=5pt]{block body}
+        \textbf{\textcolor{NavyPrimary}{\scriptsize TEAM MEMBERS (4 -- 5) \& DOMAIN:}}\\[0.25em]
+        \scriptsize
         \begin{tabular}{@{}ll@{}}
-          \textbf{4.} Team Member 4 & \textbf{Roll No:} 22A91A0504 \\
-          \textbf{5.} Team Member 5 & \textbf{Roll No:} 22A91A0505 \\[0.2em]
-          \multicolumn{2}{@{}l}{\textbf{Project Scope:} Version 1.0 ML Benchmark} \\
+          \textbf{4.} Team Member 4     & \textbf{Roll No:} 22A91A0504 \\
+          \textbf{5.} Team Member 5     & \textbf{Roll No:} 22A91A0505 \\[0.15em]
+          \multicolumn{2}{@{}l}{\textbf{Project Domain:} AI \& Energy Storage Systems} \\
         \end{tabular}
-      \end{block}
+      \end{beamercolorbox}
     \end{column}
   \end{columns}
   
-  \vspace{0.3em}
+  \vspace{0.4em}
+  % Bottom Methodology Scope Band
   \begin{center}
-    \scriptsize \textcolor{DarkSlate}{\textbf{Focus:} Data-Driven Modeling $\bullet$ 10-Model Empirical Benchmark $\bullet$ 5-Fold Cross-Validation $\bullet$ Diagnostic Analytics}
+    \begin{beamercolorbox}[rounded=true,shadow=false,wd=0.98\textwidth,center,sep=3pt]{block body alerted}
+      \tiny \textcolor{DarkSlate}{\textbf{Methodology Scope:} 14,992 Degradation Cycles $\bullet$ 10-Model Empirical Benchmark $\bullet$ 5-Fold GridSearchCV Tuning $\bullet$ Diagnostic Error Envelopes}
+    \end{beamercolorbox}
   \end{center}
 \end{frame}
 
@@ -203,7 +225,7 @@
       \small Develop high-precision parity bounds ($\pm 5\% / \pm 10\%$), residual homoscedasticity, error CDF curves, and feature importance rankings.
     \end{block}
     \vspace{0.4em}
-    \begin{exampleblock}{\textbf{Phase 1 Target Output}}
+    \begin{exampleblock}{\textbf{Target Engineering Output}}
       \footnotesize Deliver a validated, highly accurate, lightweight ML regression engine ready for embedded deployment.
     \end{exampleblock}
   \end{column}
