@@ -1,0 +1,588 @@
+\documentclass[aspectratio=169, 10pt]{beamer}
+
+% ==============================================================================
+% THEME & COLOR CONFIGURATION (Professional Academic Navy-Teal Palette)
+% ==============================================================================
+\usetheme{Madrid}
+\usefonttheme{professionalfonts}
+
+\definecolor{NavyPrimary}{RGB}{15, 44, 89}      % #0F2C59
+\definecolor{TealSecondary}{RGB}{2, 132, 199}   % #0284C7
+\definecolor{DarkSlate}{RGB}{30, 41, 59}        % #1E293B
+\definecolor{LightBg}{RGB}{248, 250, 252}       % #F8FAFC
+\definecolor{AccentRed}{RGB}{220, 38, 38}       % #DC2626
+\definecolor{AccentGreen}{RGB}{22, 163, 74}     % #16A34A
+\definecolor{CardBg}{RGB}{241, 245, 249}        % #F1F5F9
+
+\setbeamercolor{palette primary}{bg=NavyPrimary, fg=white}
+\setbeamercolor{palette secondary}{bg=TealSecondary, fg=white}
+\setbeamercolor{palette tertiary}{bg=DarkSlate, fg=white}
+\setbeamercolor{structure}{fg=NavyPrimary}
+\setbeamercolor{titlelike}{parent=palette primary}
+\setbeamercolor{block title}{bg=NavyPrimary, fg=white}
+\setbeamercolor{block body}{bg=CardBg, fg=DarkSlate}
+\setbeamercolor{block title alerted}{bg=AccentRed, fg=white}
+\setbeamercolor{block body alerted}{bg=LightBg, fg=DarkSlate}
+\setbeamercolor{block title example}{bg=AccentGreen, fg=white}
+\setbeamercolor{block body example}{bg=LightBg, fg=DarkSlate}
+
+% ==============================================================================
+% REQUIRED PACKAGES
+% ==============================================================================
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{microtype}
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit, calc}
+
+% Customize header/footer
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Lithium-Ion Battery RUL Framework
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}Project Review 1: Version 1.0
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ==============================================================================
+% PRESENTATION METADATA
+% ==============================================================================
+\title[Battery RUL Prediction Framework]{Intelligent Lithium-Ion Battery Remaining Useful Life (RUL) Prediction Framework}
+\subtitle{Phase 1: Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}
+\author[Project Team]{Academic Project Review 1}
+\institute[Engineering Department]{Department of Machine Learning \& Data Science}
+\date[\today]{Semester Project Presentation | Version 1.0}
+
+% ==============================================================================
+% DOCUMENT BEGINS
+% ==============================================================================
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% SLIDE 1: TITLE SLIDE
+% ------------------------------------------------------------------------------
+\begin{frame}[plain]
+  \titlepage
+  \begin{center}
+    \footnotesize
+    \textcolor{DarkSlate}{\textbf{Focus:} Data-Driven Modeling $\bullet$ GPU Acceleration $\bullet$ 10-Model Empirical Benchmark $\bullet$ Diagnostic Analytics}
+  \end{center}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 2: EXECUTIVE SUMMARY & PROJECT PHASING
+% ------------------------------------------------------------------------------
+\begin{frame}{Executive Summary \& Project Phasing}
+\begin{columns}[T]
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Version 1.0: Current Implementation (Review 1)}}
+      \begin{itemize}\small
+        \item \textbf{Dataset Processing}: 14,992 cycles analyzed across 7 operational degradation features (0 nulls, 0 duplicates).
+        \item \textbf{10-Model ML Benchmark}: Evaluated bagging, boosting, instance-based, trees, and linear baselines.
+        \item \textbf{GPU Acceleration}: CUDA-accelerated XGBoost and multi-core CPU parallelization.
+        \item \textbf{Rigorous 5-Fold CV}: Systematic hyperparameter tuning via \texttt{GridSearchCV}.
+        \item \textbf{Top Result}: Extra Trees Regressor achieved \textbf{$R^2 = 0.9971$} and \textbf{MAE = 7.71 cycles}.
+      \end{itemize}
+    \end{block}
+  \end{column}
+  
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Version 2.0: Future Roadmap (Review 2)}}
+      \begin{itemize}\small
+        \item \textbf{Battery Digital Twin}: Integration of optimized ML models with live BMS telemetry streams.
+        \item \textbf{Real-Time State Estimation}: Continuous State of Health (SOH) and RUL tracking with dynamic confidence intervals.
+        \item \textbf{Online Incremental Learning}: Recursive weight updates under variable thermal and discharge stress.
+        \item \textbf{Closed-Loop Control}: Automated charging rate optimization to maximize cell longevity.
+      \end{itemize}
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 3: PROBLEM STATEMENT & BATTERY ELECTROCHEMISTRY
+% ------------------------------------------------------------------------------
+\begin{frame}{Problem Statement: Non-Linear Battery Aging}
+\begin{columns}[T]
+  \begin{column}{0.55\textwidth}
+    \textbf{Electrochemical Degradation Mechanisms:}
+    \begin{itemize}\small
+      \item \textbf{Loss of Lithium Inventory (LLI)}: Irreversible electrolyte decomposition continuously thickens the Solid Electrolyte Interphase (SEI) film on the anode.
+      \item \textbf{Loss of Active Material (LAM)}: Cyclic intercalation stress induces mechanical micro-cracking and particle detachment at the cathode.
+      \item \textbf{Impedance Rise ($R_{\text{int}}$)}: Polarization escalation triggers terminal voltage drops during discharge and premature charge cutoffs.
+    \end{itemize}
+    \vspace{0.5em}
+    \begin{alertblock}{\textbf{End-of-Life (EOL) Criterion}}
+      \small When battery capacity drops below \textbf{70\%--80\% of nominal rating}, the cell enters a steep degradation knee prone to thermal runaway.
+    \end{alertblock}
+  \end{column}
+
+  \begin{column}{0.42\textwidth}
+    \begin{block}{\textbf{Mathematical Formulation}}
+      \small
+      Given operational cycle index $t$, the Remaining Useful Life $\text{RUL}(t)$ is defined as:
+      $$\text{RUL}(t) = N_{\text{EOL}} - N(t)$$
+      where $N_{\text{EOL}}$ denotes the cycle count where capacity crosses the failure threshold.
+    \end{block}
+    \vspace{0.3em}
+    \textbf{Core Engineering Challenge:}
+    \begin{itemize}\footnotesize
+      \item Estimate $\text{RUL}(t)$ non-invasively using external surface sensor telemetry (voltage cutoffs, discharge duration, dwell times) without intrusive electrochemical probing.
+    \end{itemize}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 4: PROJECT OBJECTIVES (VERSION 1.0 SCOPE)
+% ------------------------------------------------------------------------------
+\begin{frame}{Project Objectives (Version 1.0 Scope)}
+\begin{columns}[T]
+  \begin{column}{0.5\textwidth}
+    \begin{block}{\textbf{Objective 1: Statistical EDA \& Integrity}}
+      \small Fully evaluate statistical moments, probability distributions, skewness, kurtosis, and correlation structure across 14,992 degradation records.
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Objective 2: Standardized Pipeline Design}}
+      \small Build leak-free Scikit-Learn pipelines encapsulating \texttt{StandardScaler} with regression estimators to eliminate data leakage.
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Objective 3: Hardware Acceleration}}
+      \small Deploy NVIDIA CUDA GPU computing for high-throughput tree boosting (XGBoost GPU) and multi-core CPU parallel execution.
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Objective 4: Systematic 5-Fold Tuning}}
+      \small Perform exhaustive parameter sweeps across 10 diverse ML models using 5-fold cross-validation (\texttt{GridSearchCV}) scoring for negative MAE.
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Objective 5: Multi-Model Benchmarking}}
+      \small Quantitatively rank all 10 baseline and tuned models across Train/Test MAE, RMSE, $R^2$, and inference execution latencies.
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Objective 6: Diagnostic Visual Analytics}}
+      \small Develop 18 dedicated EDA and diagnostic presentation charts for academic project review.
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 5: COMPREHENSIVE LITERATURE REVIEW
+% ------------------------------------------------------------------------------
+\begin{frame}{Literature Review: 5 Foundational Research Papers}
+\small
+\begin{table}[]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Paper / Reference} & \textbf{Publication Venue} & \textbf{Key Methodology / Focus} & \textbf{Takeaway for Our Project} \\ \midrule
+\textbf{1. Haghighi et al. (2026)} & Elsevier \textit{Results in Eng.} & Stacked LSTM, TCN, Conformer + Digital Twin & Validates Digital Twin goal \& multi-model evaluation. \\
+\textbf{2. Wu et al. (2026)} & MDPI \textit{Sensors} & Integrated Ensembles (RF, RVM, Elastic Net) & Proves tree ensembles achieve lightweight online inference. \\
+\textbf{3. Liu \& Chen (2019)} & \textit{IEEE Access} & Health Indicators + Gaussian Process Reg. & Validates indirect voltage/charging indicators as RUL proxies. \\
+\textbf{4. Wang et al. (2023)} & \textit{IEEE / arXiv} & Two-Stage Early Non-Linear Prognostics & Confirms non-linear tree models handle steep degradation knees. \\
+\textbf{5. Zhang et al. (2024)} & \textit{IEEE / arXiv} & Hybrid Attention Networks vs. Tabular Noise & Shows tuned tree ensembles excel on tabular cycle features. \\ \bottomrule
+\end{tabular}%
+}
+\end{table}
+\vspace{0.5em}
+\begin{block}{\textbf{Synthesis of Literature Findings}}
+  \footnotesize
+  \textbf{Key Insight:} Deep neural networks suffer from high latency and memory overhead on embedded BMS hardware. Tuned tree-based ensembles (Extra Trees, Random Forest, XGBoost, LightGBM) deliver state-of-the-art accuracy with sub-millisecond execution times.
+\end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 6: RESEARCH GAP IDENTIFICATION
+% ------------------------------------------------------------------------------
+\begin{frame}{Research Gap Analysis}
+\begin{columns}[T]
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Gap 1: Computational Overhead on Edge BMS}}
+      \small Deep learning models (Transformers, LSTMs) demand excessive GPU memory and floating-point operations. A comprehensive benchmark of lightweight, high-accuracy tree algorithms is needed for embedded BMS controllers.
+    \end{block}
+    \vspace{0.4em}
+    \begin{block}{\textbf{Gap 2: Absence of Standardized 10-Model Benchmarking}}
+      \small Existing studies typically compare only 2--3 models under disparate preprocessing conditions. Standardized evaluation under identical 5-fold CV grids is missing in literature.
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Gap 3: Operational Feature Importance Mapping}}
+      \small Literature emphasizes complex synthetic indicators. There is a need to quantify how readily available operational features (voltage cutoffs, dwell times) directly drive decision trees.
+    \end{block}
+    \vspace{0.4em}
+    \begin{block}{\textbf{Gap 4: Phased Verification for Digital Twin}}
+      \small Instead of treating ML as an unverified black-box in a digital twin, Version 1.0 establishes an empirically validated ML baseline prior to real-time integration in Version 2.0.
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 7: PRIMARY DATASET STATISTICAL CHARACTERIZATION
+% ------------------------------------------------------------------------------
+\begin{frame}{Primary Dataset Analysis (14,992 Cycle Records)}
+\begin{columns}[T]
+  \begin{column}{0.65\textwidth}
+    \scriptsize
+    \begin{table}[]
+    \centering
+    \begin{tabular}{@{}lrrrrcc@{}}
+    \toprule
+    \textbf{Operational Feature} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} & \textbf{Skew} & \textbf{Corr ($r$ with RUL)} \\ \midrule
+    \texttt{Max. Voltage Dischar. (V)} & 0.00 & 1.00 & -4.68 & 2.50 & -0.59 & \textbf{+0.7891} \\
+    \texttt{Min. Voltage Charg. (V)} & 0.00 & 1.00 & -1.54 & 3.53 & +0.28 & \textbf{-0.7682} \\
+    \texttt{Time at 4.15V (s)} & 0.00 & 1.00 & -0.23 & 29.08 & +17.53 & \textbf{+0.1753} \\
+    \texttt{Time constant current (s)} & 0.00 & 1.00 & -0.13 & 29.87 & +25.63 & \textbf{+0.0412} \\
+    \texttt{Decrement 3.6-3.4V (s)} & 0.00 & 1.00 & -0.04 & 29.08 & +16.12 & \textbf{+0.0219} \\
+    \texttt{Charging time (s)} & 0.00 & 1.00 & -0.13 & 29.87 & +23.45 & \textbf{+0.0184} \\
+    \texttt{Discharge Time (s)} & 0.00 & 1.00 & -0.13 & 29.87 & +17.38 & \textbf{+0.0076} \\ \midrule
+    \textbf{Target: \texttt{RUL}} & \textbf{554.9} & \textbf{322.2} & \textbf{0.00} & \textbf{1133.0} & \textbf{+0.004} & \textbf{1.0000} \\ \bottomrule
+    \end{tabular}
+    \end{table}
+  \end{column}
+
+  \begin{column}{0.33\textwidth}
+    \begin{block}{\textbf{Data Integrity Verification}}
+      \footnotesize
+      \begin{itemize}
+        \item \textbf{Missing Values}: 0 nulls.
+        \item \textbf{Infinite Values}: 0 infs.
+        \item \textbf{Duplicates}: 0 duplicates.
+        \item \textbf{Target Distribution}: Uniform continuum spanning 0 to 1,133 cycles ($\text{Skew} = +0.0037$), eliminating sampling bias.
+      \end{itemize}
+    \end{block}
+    \vspace{0.2em}
+    \begin{exampleblock}{\textbf{Key Physical Findings}}
+      \footnotesize Discharge cutoff voltage drops ($r=+0.789$) and minimum charging voltage rises ($r=-0.768$) as internal cell impedance escalates.
+    \end{exampleblock}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 8: EXPLORATORY DATA ANALYSIS (EDA) SUITE - PART 1
+% ------------------------------------------------------------------------------
+\begin{frame}{Exploratory Data Analysis Suite: Distributions \& Outliers}
+\begin{columns}[T]
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Target Variable Distribution \& Normality Fit}}
+      \small
+      \begin{itemize}
+        \item Evaluated RUL against fitted Gaussian density:
+        $$N(\mu = 554.94, \sigma = 322.18)$$
+        \item Quantile partition: $Q_1 = 279$, $\text{Median} = 551$, $Q_3 = 840$ cycles.
+        \item Confirms a uniform degradation trajectory without localized sample clustering.
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Univariate Probability Densities}}
+      \small
+      \begin{itemize}
+        \item Visualized KDE distributions across all 7 operational features.
+        \item Observed heavy positive tails in charging durations due to late-stage constant voltage saturation.
+      \end{itemize}
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Interquartile Range \& Outlier Analysis}}
+      \small
+      \begin{itemize}
+        \item Boxplot sweeps across standardized operational features.
+        \item Identified bounded interquartile spreads with extreme operational dwell intervals at battery end-of-life.
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Bivariate Degradation Trendlines}}
+      \small
+      \begin{itemize}
+        \item Fitted 2nd-order polynomial regression curves:
+        $$y = \beta_0 + \beta_1 x + \beta_2 x^2$$
+        \item Captures pronounced non-linear curvature in terminal voltage drops as RUL approaches zero.
+      \end{itemize}
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 9: EXPLORATORY DATA ANALYSIS (EDA) SUITE - PART 2
+% ------------------------------------------------------------------------------
+\begin{frame}{Advanced EDA: Collinearity, PCA Manifold \& Lifecycle Radar}
+\begin{columns}[T]
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Linear vs. Rank Correlation Heatmaps}}
+      \small
+      \begin{itemize}
+        \item Compared Pearson ($r$) vs. Spearman ($\rho$) correlation matrices.
+        \item Spearman rank correlation revealed monotonic non-linear dependencies between charging phases ($|\rho| > |r|$).
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Multicollinearity Diagnostics (VIF)}}
+      \small
+      \begin{itemize}
+        \item Computed Variance Inflation Factors (VIF).
+        \item High collinearity observed between \texttt{Charging time} and \texttt{Time constant current}, proving the necessity of tree-based feature selection over linear regressors.
+      \end{itemize}
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{PCA 2D Degradation Manifold}}
+      \small
+      \begin{itemize}
+        \item Unsupervised Principal Component Analysis projected 7-dimensional feature space into 2D.
+        \item Top 2 Principal Components capture $>65\%$ total variance, showing continuous 1D aging trajectory colored by RUL.
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Multi-Dimensional Lifecycle Radar Profiles}}
+      \small
+      \begin{itemize}
+        \item Polar spider chart profiling 4 lifecycle stages:
+        \textbf{Fresh} ($>840$ cyc), \textbf{Healthy} ($560$--$840$), \textbf{Aged} ($280$--$560$), and \textbf{Near EOL} ($<280$ cyc).
+      \end{itemize}
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 10: SELECTION & JUSTIFICATION OF 10 ML MODELS
+% ------------------------------------------------------------------------------
+\begin{frame}{Selection \& Justification of 10 Machine Learning Models}
+\scriptsize
+\begin{table}[]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Model Architecture} & \textbf{Algorithmic Family} & \textbf{Engineering Justification for Battery Prognostics} \\ \midrule
+\textbf{1. Extra Trees Regressor} & Extremely Randomized Trees & Randomizes split thresholds; minimizes variance on continuous sensor data. \\
+\textbf{2. Random Forest Regressor} & Bootstrap Bagging Ensemble & Mitigates overfitting on sensor noise via de-correlated tree ensembles. \\
+\textbf{3. XGBoost (CUDA GPU)} & Scalable Gradient Boosting & 2nd-order Taylor loss optimization with GPU acceleration for rapid inference. \\
+\textbf{4. LightGBM Regressor} & Leaf-wise Histogram Boosting & GOSS and EFB algorithms optimize split finding with minimal RAM footprint. \\
+\textbf{5. Gradient Boosting (GBR)} & Stage-wise Additive Boosting & Fits sequential shallow trees to pseudo-residuals of prior estimators. \\
+\textbf{6. HistGradientBoosting} & Binned Histogram Boosting & Discretizes continuous features into 256 bins for ultra-fast split calculation. \\
+\textbf{7. AdaBoost Regressor} & Adaptive Boosting & Sequentially amplifies weights on difficult-to-predict non-linear knee cycles. \\
+\textbf{8. K-Nearest Neighbors} & Instance-Based Learning & Non-parametric distance-weighted estimation across repeatable aging trajectories. \\
+\textbf{9. Decision Tree Regressor} & CART Single Tree Baseline & Provides interpretable hierarchical decision boundaries on voltage cutoffs. \\
+\textbf{10. Ridge Regression} & L2-Regularized Linear Baseline & Solves $\min \|y-Xw\|_2^2 + \alpha \|w\|_2^2$; benchmark for linear vs. non-linear need. \\ \bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 11: HARDWARE ACCELERATION & METHODOLOGY PIPELINE
+% ------------------------------------------------------------------------------
+\begin{frame}{Methodology Pipeline \& Hardware Architecture}
+\begin{columns}[T]
+  \begin{column}{0.5\textwidth}
+    \begin{block}{\textbf{Hardware Acceleration Architecture}}
+      \small
+      \begin{itemize}
+        \item \textbf{GPU}: NVIDIA GeForce RTX 2050 Laptop GPU.
+        \item \textbf{Compute Engine}: CUDA 12.6 / 13.1 Runtime.
+        \item \textbf{Framework}: PyTorch CUDA (\texttt{torch 2.13.0+cu126}) and XGBoost GPU backend (\texttt{tree\_method='hist'}, \texttt{device='cuda'}).
+        \item \textbf{CPU Multi-threading}: Scikit-Learn and LightGBM parallelized using \texttt{n\_jobs=-1}.
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Leak-Free Pipeline Architecture}}
+      \small
+      \texttt{Pipeline([('scaler', StandardScaler()), ('model', Regressor)])} guarantees that scaling transformations are fitted strictly on training folds.
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{5-Fold Cross-Validation \& Tuning}}
+      \small
+      \begin{itemize}
+        \item \textbf{Data Partitioning}: 80/20 train-test split (11,993 train / 2,999 test cycles).
+        \item \textbf{Cross-Validation}: 5-Fold Stratified K-Fold (\texttt{KFold(n\_splits=5, shuffle=True, seed=42)}).
+        \item \textbf{Hyperparameter Sweep}: Exhaustive \texttt{GridSearchCV} optimizing:
+        $$\text{Scoring} = -\text{MAE} = -\frac{1}{N}\sum_{i=1}^N |y_i - \hat{y}_i|$$
+        \item Total fits executed across grid: \textbf{>180 fold iterations}.
+      \end{itemize}
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 12: QUANTITATIVE BENCHMARK RESULTS
+% ------------------------------------------------------------------------------
+\begin{frame}{Quantitative Benchmark Results: 10 ML Models}
+\scriptsize
+\begin{table}[]
+\centering
+\begin{tabular}{@{}clcccccc@{}}
+\toprule
+\textbf{Rank} & \textbf{Model Architecture} & \textbf{Best CV MAE} & \textbf{Test MAE (cyc)} & \textbf{Test RMSE (cyc)} & \textbf{Test $R^2$} & \textbf{Baseline $R^2$} & \textbf{Tune Time (s)} \\ \midrule
+\textbf{1} & \textbf{Extra Trees Regressor} & \textbf{9.0991} & \textbf{7.7124} & \textbf{17.1383} & \textbf{0.9971} & 0.9970 & 10.17 \\
+\textbf{2} & \textbf{Random Forest Regressor} & \textbf{10.8278} & \textbf{9.4752} & \textbf{21.1858} & \textbf{0.9956} & 0.9956 & 33.20 \\
+\textbf{3} & \textbf{Decision Tree Regressor} & 12.2955 & 10.5529 & 29.9444 & 0.9912 & 0.9912 & 0.37 \\
+\textbf{4} & \textbf{K-Nearest Neighbors} & 13.1037 & 11.3031 & 26.8637 & 0.9929 & 0.9909 & 0.20 \\
+\textbf{5} & \textbf{LightGBM Regressor} & 16.5085 & 16.0533 & 27.6019 & 0.9925 & 0.9904 & 8.31 \\
+\textbf{6} & \textbf{HistGradientBoosting} & 16.9568 & 16.7832 & 26.8505 & 0.9929 & 0.9909 & 2.50 \\
+\textbf{7} & \textbf{Gradient Boosting (GBR)} & 18.5645 & 17.9389 & 26.9766 & 0.9929 & 0.9830 & 27.39 \\
+\textbf{8} & \textbf{XGBoost Regressor (GPU)} & 18.8530 & 18.0052 & 26.9789 & 0.9929 & 0.9951 & 12.69 \\
+\textbf{9} & \textbf{AdaBoost Regressor} & 54.9418 & 54.2384 & 66.8102 & 0.9562 & 0.9575 & 5.56 \\
+\textbf{10} & \textbf{Ridge Regression (Linear)} & 92.5098 & 92.2592 & 150.9380 & 0.7762 & 0.7762 & 0.06 \\ \bottomrule
+\end{tabular}
+\end{table}
+\vspace{0.4em}
+\begin{columns}[T]
+  \begin{column}{0.48\textwidth}
+    \begin{exampleblock}{\textbf{Key Finding 1: Extra Trees Dominance}}
+      \footnotesize Extra Trees achieved the lowest Test MAE (\textbf{7.71 cycles}) and highest $R^2$ (\textbf{0.9971}) due to randomized threshold splitting across dense operational features.
+    \end{exampleblock}
+  \end{column}
+  \begin{column}{0.48\textwidth}
+    \begin{alertblock}{\textbf{Key Finding 2: Failure of Linear Baselines}}
+      \footnotesize Ridge Regression achieved only $R^2 = 0.7762$ and MAE $= 92.26$ cycles, demonstrating that linear models fail on battery degradation dynamics.
+    \end{alertblock}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 13: DIAGNOSTIC VISUAL ANALYTICS SUITE
+% ------------------------------------------------------------------------------
+\begin{frame}{Model Diagnostics \& Error Bounds Visual Analytics}
+\begin{columns}[T]
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Parity Plots with Error Bounds}}
+      \small
+      \begin{itemize}
+        \item High-precision scatter parity ($y_{\text{true}}$ vs. $y_{\text{pred}}$).
+        \item Top models remain tightly bounded within \textbf{$\pm 5\%$} and \textbf{$\pm 10\%$} operational tolerance envelopes across the entire 0--1,133 cycle range.
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Residual Diagnostics \& Normality}}
+      \small
+      \begin{itemize}
+        \item Residual scatter ($e = y - \hat{y}$) shows zero-mean homoscedastic variance across predicted RUL.
+        \item Gaussian distribution fit: $N(\mu = -0.12, \sigma = 17.14)$, confirming absence of systematic bias.
+      \end{itemize}
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Cumulative Accuracy CDF Curves}}
+      \small
+      \begin{itemize}
+        \item Cumulative distribution of absolute error:
+        $$F(e) = P(|y - \hat{y}| \le e)$$
+        \item \textbf{>85\%} of test predictions for Extra Trees fall within $\le 10$ cycles; \textbf{>95\%} fall within $\le 20$ cycles.
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{block}{\textbf{Ensemble Feature Importance}}
+      \small
+      \begin{itemize}
+        \item Quantified Gini impurity and split gain rankings across RF, Extra Trees, XGBoost, and LightGBM.
+        \item \texttt{Max. Voltage Dischar.} and \texttt{Min. Voltage Charg.} consistently account for $>70\%$ total feature split importance.
+      \end{itemize}
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 14: SECONDARY DATASET VALIDATION (NASA PCoE 4-CELL PIPELINE)
+% ------------------------------------------------------------------------------
+\begin{frame}{Secondary Dataset: NASA PCoE 4-Cell Telemetry Pipeline}
+\begin{columns}[T]
+  \begin{column}{0.55\textwidth}
+    \begin{block}{\textbf{Official NASA Ames PCoE Repository}}
+      \small
+      \begin{itemize}
+        \item Processed raw MATLAB (\texttt{.mat}) files for commercial 18650 cells: \textbf{B0005}, \textbf{B0006}, \textbf{B0007}, \textbf{B0018}.
+        \item Built standalone extraction engine in \texttt{nasa\_battery\_preprocessing.py} and \texttt{nasa\_battery\_preprocessing.ipynb}.
+        \item Extracted \textbf{17 physical parameters} per cycle:
+        \begin{itemize}\footnotesize
+          \item \textit{Discharge}: $V_{\max}, V_{\min}, V_{\text{mean}}, I_{\text{mean}}, T_{\max}, T_{\text{mean}}, t_{\text{dis}}, t_{3.5\text{V}}, t_{3.2\text{V}}$.
+          \item \textit{Charge}: $t_{\text{CC}}, t_{\text{CV}}, t_{\text{total}}, T_{\text{chg,max}}$.
+          \item \textit{EIS Impedance}: $R_e$ (electrolyte), $R_{\text{ct}}$ (charge transfer).
+        \end{itemize}
+        \item Computed continuous State of Health (SOH \%) and RUL based on $1.40\text{ Ah}$ (70\% SOH) EOL cutoff.
+      \end{itemize}
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.42\textwidth}
+    \begin{block}{\textbf{Extracted Dataset Summary}}
+      \small
+      \begin{itemize}
+        \item \textbf{Total Cycles}: 636 cycles across 4 cells.
+        \item \textbf{Missing Values}: 0 nulls (imputed).
+        \item \textbf{Datasets Exported}:
+        \begin{itemize}\footnotesize
+          \item \texttt{nasa\_battery\_raw\_features.csv}
+          \item \texttt{nasa\_battery\_standard\_scaled.csv}
+        \end{itemize}
+      \end{itemize}
+    \end{block}
+    \vspace{0.3em}
+    \begin{exampleblock}{\textbf{Cross-Dataset Generalization}}
+      \footnotesize Provides a multi-battery benchmark to test transferability of the Version 1.0 ML pipeline.
+    \end{exampleblock}
+  \end{column}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------------------
+% SLIDE 15: VERSION 2.0 ROADMAP & CONCLUSION
+% ------------------------------------------------------------------------------
+\begin{frame}{Version 2.0 Roadmap \& Review 1 Conclusion}
+\begin{columns}[T]
+  \begin{column}{0.5\textwidth}
+    \begin{block}{\textbf{Version 2.0 Battery Digital Twin Architecture}}
+      \small
+      \begin{enumerate}
+        \item \textbf{Real-Time Telemetry Stream}: Ingest cell voltage, current, and temperature at $1\text{ Hz}$ from edge IoT/BMS.
+        \item \textbf{Feature Extractor}: Dynamic rolling calculation of $V_{\text{cut}}$, CC/CV durations, and dwell times.
+        \item \textbf{Digital Twin ML Core}: Deploy tuned Extra Trees/Random Forest pipeline for sub-millisecond inference.
+        \item \textbf{Predictive Analytics}: Continuous SOH/RUL trajectory estimation with $95\%$ confidence bounds.
+        \item \textbf{Closed-Loop Control}: Feedback loop adjusting charging current to prevent accelerated aging.
+      \end{enumerate}
+    \end{block}
+  \end{column}
+
+  \begin{column}{0.48\textwidth}
+    \begin{block}{\textbf{Review 1 Deliverables Summary}}
+      \small
+      \begin{itemize}
+        \item \textbf{Structured Codebase}: \texttt{version1.ipynb} with 18 dedicated visual analytics modules.
+        \item \textbf{Empirical Benchmark}: 10 ML models systematically tuned via 5-fold CV on NVIDIA CUDA GPU.
+        \item \textbf{Literature Base}: 5 foundational IEEE/Elsevier papers archived and synthesized.
+        \item \textbf{Secondary Dataset}: Official NASA PCoE 4-cell pipeline implemented.
+        \item \textbf{Documentation}: Comprehensive, clean \texttt{README.md} with zero emojis.
+      \end{itemize}
+    \end{block}
+    \vspace{0.5em}
+    \begin{center}
+      \textbf{\textcolor{NavyPrimary}{Thank You! Open for Questions \& Discussion.}}
+    \end{center}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\end{document}
