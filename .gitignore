@@ -1,1 +1,6 @@
 battery_alt_dataset
+nasa_raw_data/*.zip
+nasa_raw_data/5. Battery Data Set/
+*.zip
+__pycache__/
+.ipynb_checkpoints/
