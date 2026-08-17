@@ -13,7 +13,6 @@
 \definecolor{AccentRed}{RGB}{220, 38, 38}       % #DC2626
 \definecolor{AccentGreen}{RGB}{22, 163, 74}     % #16A34A
 \definecolor{CardBg}{RGB}{241, 245, 249}        % #F1F5F9
-\definecolor{PillBg}{RGB}{224, 242, 254}        % #E0F2FE
 
 \setbeamercolor{palette primary}{bg=NavyPrimary, fg=white}
 \setbeamercolor{palette secondary}{bg=TealSecondary, fg=white}
@@ -45,7 +44,7 @@
   \leavevmode%
   \hbox{%
   \begin{beamercolorbox}[wd=.35\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-    \usebeamerfont{author in head/foot}Group 11 $\bullet$ Battery RUL Prediction Digital Twin
+    \usebeamerfont{author in head/foot}Group-11 $\bullet$ Battery RUL Prediction Digital Twin
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.40\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
     \usebeamerfont{title in head/foot}Machine Learning Pipeline \& Empirical Benchmarking
@@ -60,8 +59,7 @@
 % PRESENTATION METADATA
 % ==============================================================================
 \title[Battery RUL Prediction Digital Twin]{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}
-\subtitle{Data-Driven Machine Learning Pipeline, 5-Fold Cross-Validation, and Multi-Model Optimization}
-\author[Group 11]{Group No: 11}
+\author[Group-11]{Group-11}
 \institute[Department of ML \& DS]{Department of Machine Learning \& Data Science}
 \date[\today]{Semester Project Presentation}
 
@@ -71,64 +69,44 @@
 \begin{document}
 
 % ------------------------------------------------------------------------------
-% SLIDE 1: PREMIUM ACADEMIC TITLE SLIDE
+% SLIDE 1: CLEAN PROFESSIONAL TITLE SLIDE
 % ------------------------------------------------------------------------------
 \begin{frame}[plain]
+  \vspace{0.8em}
+  % Header Rule
+  \begin{center}
+    \begin{tikzpicture}
+      \fill[NavyPrimary] (0,0) rectangle (7.0, 0.05);
+      \fill[TealSecondary] (7.0,0) rectangle (14.0, 0.05);
+    \end{tikzpicture}
+  \end{center}
   \vspace{0.2em}
-  % Top decorative accent bar
-  \begin{center}
-    \begin{tikzpicture}
-      \fill[NavyPrimary] (0,0) rectangle (7.5, 0.06);
-      \fill[TealSecondary] (7.5,0) rectangle (14.0, 0.06);
-    \end{tikzpicture}
-  \end{center}
-  \vspace{-0.3em}
 
-  % Title & Subtitle Hierarchy
+  % Main Title (No Subtitle)
   \begin{center}
-    {\fontsize{15pt}{18pt}\selectfont \textbf{\textcolor{NavyPrimary}{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}}}\\[0.3em]
-    {\fontsize{10.5pt}{13pt}\selectfont \textbf{\textcolor{TealSecondary}{Data-Driven Machine Learning Pipeline, 5-Fold Cross-Validation, and Multi-Model Optimization}}}\\[0.6em]
+    {\fontsize{16pt}{20pt}\selectfont \textbf{\textcolor{NavyPrimary}{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}}}\\[0.8em]
     
-    % Group Pill Badge & Department Banner
+    % Course Code & Group Badge
+    {\normalsize \textbf{\textcolor{DarkSlate}{22AIE233 -- Introduction to Data Driven and Modelling}}}\\[0.4em]
     \begin{tikzpicture}
-      \node[fill=NavyPrimary, text=white, rounded corners=3pt, font=\scriptsize\bfseries, inner sep=3.5pt] at (0,0) {GROUP NO: 11};
-      \node[text=DarkSlate, font=\scriptsize\bfseries, right=0.3cm of current bounding box.east] {Department of Machine Learning \& Data Science};
+      \node[fill=NavyPrimary, text=white, rounded corners=3pt, font=\small\bfseries, inner sep=4pt] {Group-11};
     \end{tikzpicture}
   \end{center}
-  \vspace{-0.2em}
-
-  % Team Members & Project Metadata Cards
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \begin{beamercolorbox}[rounded=true,shadow=false,wd=\textwidth,sep=5pt]{block body}
-        \textbf{\textcolor{NavyPrimary}{\scriptsize TEAM MEMBERS (1 -- 3):}}\\[0.25em]
-        \scriptsize
-        \begin{tabular}{@{}ll@{}}
-          \textbf{1.} Gandrothu Karthik & \textbf{Roll No:} 22A91A0501 \\
-          \textbf{2.} Subas M           & \textbf{Roll No:} 22A91A0502 \\
-          \textbf{3.} Team Member 3     & \textbf{Roll No:} 22A91A0503 \\
-        \end{tabular}
-      \end{beamercolorbox}
-    \end{column}
-
-    \begin{column}{0.48\textwidth}
-      \begin{beamercolorbox}[rounded=true,shadow=false,wd=\textwidth,sep=5pt]{block body}
-        \textbf{\textcolor{NavyPrimary}{\scriptsize TEAM MEMBERS (4 -- 5) \& DOMAIN:}}\\[0.25em]
-        \scriptsize
-        \begin{tabular}{@{}ll@{}}
-          \textbf{4.} Team Member 4     & \textbf{Roll No:} 22A91A0504 \\
-          \textbf{5.} Team Member 5     & \textbf{Roll No:} 22A91A0505 \\[0.15em]
-          \multicolumn{2}{@{}l}{\textbf{Project Domain:} AI \& Energy Storage Systems} \\
-        \end{tabular}
-      \end{beamercolorbox}
-    \end{column}
-  \end{columns}
-  
   \vspace{0.4em}
-  % Bottom Methodology Scope Band
+
+  % Single Structured Box for all 5 Team Members
   \begin{center}
-    \begin{beamercolorbox}[rounded=true,shadow=false,wd=0.98\textwidth,center,sep=3pt]{block body alerted}
-      \tiny \textcolor{DarkSlate}{\textbf{Methodology Scope:} 14,992 Degradation Cycles $\bullet$ 10-Model Empirical Benchmark $\bullet$ 5-Fold GridSearchCV Tuning $\bullet$ Diagnostic Error Envelopes}
+    \begin{beamercolorbox}[rounded=true,shadow=false,wd=0.92\textwidth,sep=7pt]{block body}
+      \centering
+      \textbf{\textcolor{NavyPrimary}{\small Project Team Members}}\\[0.4em]
+      \small
+      \begin{tabular}{@{}clc@{\hspace{2.5cm}}clc@{}}
+        \toprule
+        \textbf{S.No} & \textbf{Student Name} & \textbf{Roll Number} & \textbf{S.No} & \textbf{Student Name} & \textbf{Roll Number} \\ \midrule
+        1 & Gandrothu Karthik & 22A91A0501 & 4 & Team Member 4 & 22A91A0504 \\
+        2 & Subas M           & 22A91A0502 & 5 & Team Member 5 & 22A91A0505 \\
+        3 & Team Member 3     & 22A91A0503 & & & \\ \bottomrule
+      \end{tabular}
     \end{beamercolorbox}
   \end{center}
 \end{frame}
@@ -168,30 +146,30 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Problem Statement: Non-Linear Battery Aging}
 \begin{columns}[T]
-  \begin{column}{0.55\textwidth}
+  \begin{column}{0.52\textwidth}
     \textbf{Electrochemical Degradation Mechanisms:}
-    \begin{itemize}\small
+    \begin{itemize}\footnotesize
       \item \textbf{Loss of Lithium Inventory (LLI)}: Irreversible electrolyte decomposition continuously thickens the Solid Electrolyte Interphase (SEI) film on the anode.
       \item \textbf{Loss of Active Material (LAM)}: Cyclic intercalation stress induces mechanical micro-cracking and particle detachment at the cathode.
       \item \textbf{Impedance Rise ($R_{\text{int}}$)}: Polarization escalation triggers terminal voltage drops during discharge and premature charge cutoffs.
     \end{itemize}
-    \vspace{0.4em}
+    \vspace{0.3em}
     \begin{alertblock}{\textbf{End-of-Life (EOL) Criterion}}
-      \small When capacity drops below \textbf{70\%--80\% of nominal rating}, the cell enters a steep degradation knee prone to thermal runaway.
+      \footnotesize Capacity drops below \textbf{70\%--80\% of nominal rating}, entering a steep degradation knee prone to failure.
     \end{alertblock}
   \end{column}
 
-  \begin{column}{0.42\textwidth}
+  \begin{column}{0.44\textwidth}
     \begin{block}{\textbf{Mathematical Formulation}}
-      \small
-      Given operational cycle index $t$, the Remaining Useful Life $\text{RUL}(t)$ is defined as:
+      \footnotesize
+      Given operational cycle index $t$, Remaining Useful Life $\text{RUL}(t)$ is defined as:
       $$\text{RUL}(t) = N_{\text{EOL}} - N(t)$$
       where $N_{\text{EOL}}$ denotes the cycle count where capacity crosses the failure threshold.
     \end{block}
     \vspace{0.3em}
-    \textbf{Core Engineering Challenge:}
-    \begin{itemize}\footnotesize
-      \item Estimate $\text{RUL}(t)$ accurately and non-invasively using external surface sensor telemetry without intrusive electrochemical probing.
+    \textbf{Core Engineering Goal:}
+    \begin{itemize}\scriptsize
+      \item Estimate $\text{RUL}(t)$ accurately using non-invasive operational telemetry (voltages, charging durations, dwell times).
     \end{itemize}
   \end{column}
 \end{columns}
@@ -204,29 +182,29 @@
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Objective 1: Statistical EDA \& Integrity}}
-      \small Fully evaluate statistical moments, probability distributions, skewness, kurtosis, and correlation structure across 14,992 records.
+      \footnotesize Fully evaluate statistical moments, probability distributions, skewness, kurtosis, and correlation structure across 14,992 records.
     \end{block}
-    \vspace{0.4em}
+    \vspace{0.3em}
     \begin{block}{\textbf{Objective 2: Standardized Pipeline Design}}
-      \small Build leak-free Scikit-Learn pipelines encapsulating \texttt{StandardScaler} with regression estimators to eliminate data leakage.
+      \footnotesize Build leak-free Scikit-Learn pipelines encapsulating \texttt{StandardScaler} with regression estimators to eliminate data leakage.
     \end{block}
-    \vspace{0.4em}
+    \vspace{0.3em}
     \begin{block}{\textbf{Objective 3: Systematic 5-Fold Tuning}}
-      \small Perform exhaustive parameter sweeps across 10 diverse ML models using 5-fold cross-validation (\texttt{GridSearchCV}) scoring for negative MAE.
+      \footnotesize Perform exhaustive parameter sweeps across 10 diverse ML models using 5-fold cross-validation (\texttt{GridSearchCV}) scoring for negative MAE.
     \end{block}
   \end{column}
 
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Objective 4: Multi-Model Benchmarking}}
-      \small Quantitatively rank all 10 baseline and tuned models across Train/Test MAE, RMSE, $R^2$, and inference execution latencies.
+      \footnotesize Quantitatively rank all 10 baseline and tuned models across Train/Test MAE, RMSE, $R^2$, and inference execution latencies.
     \end{block}
-    \vspace{0.4em}
+    \vspace{0.3em}
     \begin{block}{\textbf{Objective 5: Diagnostic Visual Analytics}}
-      \small Develop high-precision parity bounds ($\pm 5\% / \pm 10\%$), residual homoscedasticity, error CDF curves, and feature importance rankings.
+      \footnotesize Develop high-precision parity bounds ($\pm 5\% / \pm 10\%$), residual homoscedasticity, error CDF curves, and feature importance rankings.
     \end{block}
-    \vspace{0.4em}
+    \vspace{0.3em}
     \begin{exampleblock}{\textbf{Target Engineering Output}}
-      \footnotesize Deliver a validated, highly accurate, lightweight ML regression engine ready for embedded deployment.
+      \scriptsize Validated, lightweight ML regression engine ready for embedded BMS deployment.
     \end{exampleblock}
   \end{column}
 \end{columns}
@@ -236,9 +214,8 @@
 % SLIDE 5: COMPREHENSIVE LITERATURE REVIEW
 % ------------------------------------------------------------------------------
 \begin{frame}{Literature Review: 5 Foundational Research Papers}
-\scriptsize
-\begin{table}[]
-\centering
+\begin{center}
+\resizebox{0.96\textwidth}{!}{%
 \begin{tabular}{@{}llll@{}}
 \toprule
 \textbf{Paper / Reference} & \textbf{Publication Venue} & \textbf{Key Methodology / Focus} & \textbf{Takeaway for Our Project} \\ \midrule
@@ -247,12 +224,13 @@
 \textbf{3. Liu \& Chen (2019)} & \textit{IEEE Access} & Health Indicators + Gaussian Process Reg. & Validates indirect voltage/charging indicators as RUL proxies. \\
 \textbf{4. Wang et al. (2023)} & \textit{IEEE / arXiv} & Two-Stage Early Non-Linear Prognostics & Confirms non-linear tree models handle steep degradation knees. \\
 \textbf{5. Zhang et al. (2024)} & \textit{IEEE / arXiv} & Hybrid Attention Networks vs. Tabular Noise & Shows tuned tree ensembles excel on tabular cycle features. \\ \bottomrule
-\end{tabular}
-\end{table}
-\vspace{0.3em}
+\end{tabular}%
+}
+\end{center}
+\vspace{0.2em}
 \begin{block}{\textbf{Synthesis of Literature Findings}}
   \footnotesize
-  \textbf{Key Finding:} On tabular cycle metrics, tuned tree ensembles (Extra Trees, Random Forest, XGBoost, LightGBM) achieve competitive or superior accuracy compared to deep neural networks while maintaining sub-millisecond execution latencies suitable for edge controllers.
+  \textbf{Key Finding:} On tabular cycle metrics, tuned tree ensembles (Extra Trees, Random Forest, XGBoost, LightGBM) achieve competitive accuracy compared to deep neural networks while maintaining sub-millisecond execution latencies suitable for edge controllers.
 \end{block}
 \end{frame}
 
@@ -263,21 +241,21 @@
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Gap 1: Computational Overhead on Edge BMS}}
-      \small Deep learning models demand high parameter overhead and computational memory. A rigorous benchmark of lightweight, high-accuracy tree algorithms bridges the gap between accuracy and edge deployability.
+      \footnotesize Deep learning models demand high parameter overhead and memory. A rigorous benchmark of lightweight, high-accuracy tree algorithms bridges the gap between accuracy and edge deployability.
     \end{block}
-    \vspace{0.4em}
+    \vspace{0.3em}
     \begin{block}{\textbf{Gap 2: Absence of Standardized 10-Model Benchmarking}}
-      \small Existing studies typically compare only 2--3 models under disparate preprocessing conditions. Standardized evaluation under identical 5-fold CV grids is missing in literature.
+      \footnotesize Existing studies typically compare only 2--3 models under disparate preprocessing conditions. Standardized evaluation under identical 5-fold CV grids is missing in literature.
     \end{block}
   \end{column}
 
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Gap 3: Operational Feature Importance Mapping}}
-      \small Literature emphasizes indirect health indicators. This study quantifies how readily available operational features (voltage cutoffs, dwell times) directly drive multi-tree decision splits.
+      \footnotesize Literature emphasizes indirect health indicators. This study quantifies how readily available operational features directly drive multi-tree decision splits.
     \end{block}
-    \vspace{0.4em}
+    \vspace{0.3em}
     \begin{block}{\textbf{Gap 4: Phased Verification Approach}}
-      \small Instead of deploying unverified complex architectures, Version 1.0 establishes an empirically validated ML benchmark with verified error bounds.
+      \footnotesize Instead of deploying unverified complex architectures, Version 1.0 establishes an empirically validated ML benchmark with verified error bounds.
     \end{block}
   \end{column}
 \end{columns}
@@ -288,10 +266,9 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Primary Dataset Analysis (14,992 Cycle Records)}
 \begin{columns}[T]
-  \begin{column}{0.65\textwidth}
-    \scriptsize
-    \begin{table}[]
-    \centering
+  \begin{column}{0.64\textwidth}
+    \begin{center}
+    \resizebox{\linewidth}{!}{%
     \begin{tabular}{@{}lrrrrcc@{}}
     \toprule
     \textbf{Operational Feature} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} & \textbf{Skew} & \textbf{Corr ($r$ with RUL)} \\ \midrule
@@ -303,13 +280,14 @@
     \texttt{Charging time (s)} & 0.00 & 1.00 & -0.13 & 29.87 & +23.45 & \textbf{+0.0184} \\
     \texttt{Discharge Time (s)} & 0.00 & 1.00 & -0.13 & 29.87 & +17.38 & \textbf{+0.0076} \\ \midrule
     \textbf{Target: \texttt{RUL}} & \textbf{554.9} & \textbf{322.2} & \textbf{0.00} & \textbf{1133.0} & \textbf{+0.004} & \textbf{1.0000} \\ \bottomrule
-    \end{tabular}
-    \end{table}
+    \end{tabular}%
+    }
+    \end{center}
   \end{column}
 
-  \begin{column}{0.33\textwidth}
+  \begin{column}{0.34\textwidth}
     \begin{block}{\textbf{Data Integrity Verification}}
-      \footnotesize
+      \scriptsize
       \begin{itemize}
         \item \textbf{Missing Values}: 0 nulls across 14,992 rows.
         \item \textbf{Infinite Values}: 0 infs.
@@ -319,7 +297,7 @@
     \end{block}
     \vspace{0.2em}
     \begin{exampleblock}{\textbf{Physical Insights}}
-      \footnotesize Discharge cutoff voltage drops ($r=+0.789$) and minimum charging voltage rises ($r=-0.768$) with cell aging.
+      \scriptsize Discharge cutoff voltage drops ($r=+0.789$) and minimum charging voltage rises ($r=-0.768$) with cell aging.
     \end{exampleblock}
   \end{column}
 \end{columns}
@@ -330,13 +308,13 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Exploratory Data Analysis: Target Distribution \& Normality Fit}
 \begin{center}
-  \includegraphics[width=0.88\textwidth, height=0.55\textheight, keepaspectratio]{figures/eda_target_distribution.png}
+  \includegraphics[width=0.76\textwidth, height=0.48\textheight, keepaspectratio]{figures/eda_target_distribution.png}
 \end{center}
-\vspace{-0.5em}
+\vspace{-0.4em}
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Statistical Normality Analysis}}
-      \footnotesize
+      \scriptsize
       \begin{itemize}
         \item Target variable follows Gaussian fit: $N(\mu = 554.94, \sigma = 322.18)$.
         \item Near-zero skewness ($+0.0037$) confirms uniform degradation lifecycle.
@@ -345,7 +323,7 @@
   \end{column}
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Lifecycle Quantile Partitioning}}
-      \footnotesize
+      \scriptsize
       \begin{itemize}
         \item $Q_1 = 279$ cycles, $\text{Median} = 551$ cycles, $Q_3 = 840$ cycles.
         \item Spans full operational lifetime (0 to 1,133 cycles) without data clustering.
@@ -360,13 +338,13 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Exploratory Data Analysis: Correlation \& Multicollinearity}
 \begin{center}
-  \includegraphics[width=0.88\textwidth, height=0.55\textheight, keepaspectratio]{figures/eda_correlation_heatmaps.png}
+  \includegraphics[width=0.76\textwidth, height=0.48\textheight, keepaspectratio]{figures/eda_correlation_heatmaps.png}
 \end{center}
-\vspace{-0.5em}
+\vspace{-0.4em}
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Linear vs. Rank Correlation Heatmaps}}
-      \footnotesize
+      \scriptsize
       \begin{itemize}
         \item \texttt{Max. Voltage Dischar.}: $r = +0.789$ (strongest positive predictor).
         \item \texttt{Min. Voltage Charg.}: $r = -0.768$ (strongest negative predictor).
@@ -376,7 +354,7 @@
   \end{column}
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Multicollinearity Diagnostics (VIF)}}
-      \footnotesize
+      \scriptsize
       \begin{itemize}
         \item High collinearity observed in charging times ($\text{VIF} > 10$).
         \item Proves tree-based ensembles with orthogonal split selection are required over linear models.
@@ -390,9 +368,8 @@
 % SLIDE 10: SELECTION & JUSTIFICATION OF 10 ML MODELS
 % ------------------------------------------------------------------------------
 \begin{frame}{Selection \& Justification of 10 Machine Learning Models}
-\scriptsize
-\begin{table}[]
-\centering
+\begin{center}
+\resizebox{0.96\textwidth}{!}{%
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Model Architecture} & \textbf{Algorithmic Family} & \textbf{Engineering Justification for Battery Prognostics} \\ \midrule
@@ -406,8 +383,9 @@
 \textbf{8. K-Nearest Neighbors} & Instance-Based Learning & Non-parametric distance-weighted estimation across repeatable aging trajectories. \\
 \textbf{9. Decision Tree Regressor} & CART Single Tree Baseline & Provides interpretable hierarchical decision boundaries on voltage cutoffs. \\
 \textbf{10. Ridge Regression} & L2-Regularized Linear Baseline & Solves $\min \|y-Xw\|_2^2 + \alpha \|w\|_2^2$; benchmark for linear vs. non-linear need. \\ \bottomrule
-\end{tabular}
-\end{table}
+\end{tabular}%
+}
+\end{center}
 \end{frame}
 
 % ------------------------------------------------------------------------------
@@ -415,26 +393,26 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Methodology Pipeline Architecture}
 \begin{center}
-\resizebox{0.96\textwidth}{!}{%
+\resizebox{0.94\textwidth}{!}{%
 \begin{tikzpicture}[
-  node distance=0.45cm and 0.55cm,
-  stage/.style={rectangle, draw=NavyPrimary, fill=CardBg, text=DarkSlate, rounded corners=4pt, minimum height=1.35cm, align=center, font=\scriptsize, line width=0.8pt},
-  pipe/.style={rectangle, draw=TealSecondary, fill=TealSecondary!12, text=NavyPrimary, rounded corners=4pt, minimum height=1.35cm, align=center, font=\scriptsize\bfseries, line width=1pt},
-  best/.style={rectangle, draw=AccentGreen, fill=AccentGreen!15, text=DarkSlate, rounded corners=4pt, minimum height=1.35cm, align=center, font=\scriptsize\bfseries, line width=1.1pt},
-  arrow/.style={thick, ->, >=stealth, color=NavyPrimary, line width=1.2pt}
+  node distance=0.4cm and 0.5cm,
+  stage/.style={rectangle, draw=NavyPrimary, fill=CardBg, text=DarkSlate, rounded corners=3pt, minimum height=1.25cm, align=center, font=\scriptsize, line width=0.8pt},
+  pipe/.style={rectangle, draw=TealSecondary, fill=TealSecondary!12, text=NavyPrimary, rounded corners=3pt, minimum height=1.25cm, align=center, font=\scriptsize\bfseries, line width=1pt},
+  best/.style={rectangle, draw=AccentGreen, fill=AccentGreen!15, text=DarkSlate, rounded corners=3pt, minimum height=1.25cm, align=center, font=\scriptsize\bfseries, line width=1.1pt},
+  arrow/.style={thick, ->, >=stealth, color=NavyPrimary, line width=1.1pt}
 ]
 
 % Row 1: Data Ingestion & Splitting & Pipeline
-\node[stage, text width=2.8cm] (d1) {\textbf{1. Data Ingestion \& EDA}\\14,992 Cycles | 7 Features\\Normality, VIF, PCA};
-\node[stage, text width=2.6cm, right=of d1] (d2) {\textbf{2. Data Splitting}\\80\% Train (11,993)\\20\% Test (2,999)};
-\node[pipe, text width=2.9cm, right=of d2] (d3) {\textbf{3. Pipeline Architecture}\\\texttt{StandardScaler}\\+ Regressor Estimator};
-\node[stage, text width=2.8cm, right=of d3] (d4) {\textbf{4. 10 ML Algorithms}\\Bagging, Boosting,\\Trees, KNN, Ridge};
+\node[stage, text width=2.7cm] (d1) {\textbf{1. Data Ingestion \& EDA}\\14,992 Cycles | 7 Features\\Normality, VIF, PCA};
+\node[stage, text width=2.5cm, right=of d1] (d2) {\textbf{2. Data Splitting}\\80\% Train (11,993)\\20\% Test (2,999)};
+\node[pipe, text width=2.8cm, right=of d2] (d3) {\textbf{3. Pipeline Architecture}\\\texttt{StandardScaler}\\+ Regressor Estimator};
+\node[stage, text width=2.7cm, right=of d3] (d4) {\textbf{4. 10 ML Algorithms}\\Bagging, Boosting,\\Trees, KNN, Ridge};
 
 % Row 2: 5-Fold CV & Evaluation & Output
-\node[stage, text width=2.8cm, below=1.1cm of d1] (d8) {\textbf{Winning Model}\\Extra Trees Regressor\\$R^2=0.9971$ | MAE=7.71 cyc};
-\node[stage, text width=2.6cm, right=of d8] (d7) {\textbf{7. Presentation Diagnostics}\\Parity ($\pm 5\% / \pm 10\%$)\\Residuals, CDF, Importance};
-\node[stage, text width=2.9cm, right=of d7] (d6) {\textbf{6. Test Set Evaluation}\\2,999 Unseen Cycles\\MAE, RMSE, $R^2$, Latency};
-\node[pipe, text width=2.8cm, right=of d6] (d5) {\textbf{5. 5-Fold GridSearchCV}\\Parallel Cross-Validation\\Scoring: $-\text{MAE}$};
+\node[stage, text width=2.7cm, below=0.9cm of d1] (d8) {\textbf{Winning Model}\\Extra Trees Regressor\\$R^2=0.9971$ | MAE=7.71 cyc};
+\node[stage, text width=2.5cm, right=of d8] (d7) {\textbf{7. Diagnostics}\\Parity ($\pm 5\% / \pm 10\%$)\\Residuals, CDF, Imp.};
+\node[stage, text width=2.8cm, right=of d7] (d6) {\textbf{6. Test Set Evaluation}\\2,999 Unseen Cycles\\MAE, RMSE, $R^2$, Latency};
+\node[pipe, text width=2.7cm, right=of d6] (d5) {\textbf{5. 5-Fold GridSearchCV}\\Parallel Cross-Validation\\Scoring: $-\text{MAE}$};
 
 % Connectors Row 1
 \draw[arrow] (d1) -- (d2);
@@ -452,7 +430,7 @@
 \end{tikzpicture}%
 }
 \end{center}
-\vspace{-0.3em}
+\vspace{-0.4em}
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Leak-Free Pipeline Encapsulation}}
@@ -471,9 +449,8 @@
 % SLIDE 12: QUANTITATIVE BENCHMARK RESULTS (FROM NOTEBOOK)
 % ------------------------------------------------------------------------------
 \begin{frame}{Quantitative Benchmark Results: Baseline vs. Tuned Models}
-\scriptsize
-\begin{table}[]
-\centering
+\begin{center}
+\resizebox{0.96\textwidth}{!}{%
 \begin{tabular}{@{}clcccccc@{}}
 \toprule
 \textbf{Rank} & \textbf{Model Architecture} & \textbf{Best CV MAE} & \textbf{Test MAE (cyc)} & \textbf{Test RMSE (cyc)} & \textbf{Test $R^2$} & \textbf{Baseline $R^2$} & \textbf{Tune Time (s)} \\ \midrule
@@ -487,18 +464,19 @@
 \textbf{8} & \textbf{XGBoost Regressor} & 18.8530 & 18.0052 & 26.9789 & 0.9929 & 0.9951 & 12.69 \\
 \textbf{9} & \textbf{AdaBoost Regressor} & 54.9418 & 54.2384 & 66.8102 & 0.9562 & 0.9575 & 5.56 \\
 \textbf{10} & \textbf{Ridge Regression (Linear)} & 92.5098 & 92.2592 & 150.9380 & 0.7762 & 0.7762 & 0.06 \\ \bottomrule
-\end{tabular}
-\end{table}
-\vspace{0.4em}
+\end{tabular}%
+}
+\end{center}
+\vspace{0.3em}
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{exampleblock}{\textbf{Key Finding 1: Extra Trees Dominance}}
-      \footnotesize Extra Trees achieved lowest Test MAE (\textbf{7.71 cycles}) and highest $R^2$ (\textbf{0.9971}) via randomized threshold splitting.
+      \scriptsize Extra Trees achieved lowest Test MAE (\textbf{7.71 cycles}) and highest $R^2$ (\textbf{0.9971}) via randomized threshold splitting.
     \end{exampleblock}
   \end{column}
   \begin{column}{0.48\textwidth}
     \begin{alertblock}{\textbf{Key Finding 2: Failure of Linear Baselines}}
-      \footnotesize Ridge Regression achieved only $R^2 = 0.7762$ and MAE $= 92.26$ cycles, demonstrating that linear models fail on battery degradation.
+      \scriptsize Ridge Regression achieved only $R^2 = 0.7762$ and MAE $= 92.26$ cycles, demonstrating that linear models fail on battery degradation.
     \end{alertblock}
   \end{column}
 \end{columns}
@@ -509,23 +487,23 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Model Diagnostics: Prediction Parity \& Error CDF Curves}
 \begin{columns}[T]
-  \begin{column}{0.5\textwidth}
+  \begin{column}{0.48\textwidth}
     \begin{center}
-      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/parity_error_bounds.png}
+      \includegraphics[width=0.95\linewidth, height=0.55\textheight, keepaspectratio]{figures/parity_error_bounds.png}
     \end{center}
     \vspace{-0.6em}
     \begin{block}{\textbf{Parity Tolerance Bounds}}
-      \scriptsize Top models remain tightly bounded within $\pm 5\%$ and $\pm 10\%$ operational error bands across 0--1,133 cycles.
+      \scriptsize Predictions remain tightly bounded within $\pm 5\%$ and $\pm 10\%$ error bands across 0--1,133 cycles.
     \end{block}
   \end{column}
 
   \begin{column}{0.48\textwidth}
     \begin{center}
-      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/accuracy_cdf_curve.png}
+      \includegraphics[width=0.95\linewidth, height=0.55\textheight, keepaspectratio]{figures/accuracy_cdf_curve.png}
     \end{center}
     \vspace{-0.6em}
     \begin{block}{\textbf{Cumulative Prediction Accuracy (CDF)}}
-      \scriptsize \textbf{Extra Trees}: Median error = \textbf{3.24 cyc}; \textbf{>85\%} of test predictions fall within $\le 10$ cycles; \textbf{>95\%} within $\le 20$ cycles.
+      \scriptsize \textbf{Extra Trees}: Median error = \textbf{3.24 cyc}; \textbf{>85\%} of test predictions fall within $\le 10$ cycles.
     \end{block}
   \end{column}
 \end{columns}
@@ -536,9 +514,9 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Model Diagnostics: Residuals \& Feature Importance Rankings}
 \begin{columns}[T]
-  \begin{column}{0.5\textwidth}
+  \begin{column}{0.48\textwidth}
     \begin{center}
-      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/residual_diagnostics.png}
+      \includegraphics[width=0.95\linewidth, height=0.55\textheight, keepaspectratio]{figures/residual_diagnostics.png}
     \end{center}
     \vspace{-0.6em}
     \begin{block}{\textbf{Residual Homoscedasticity}}
@@ -548,7 +526,7 @@
 
   \begin{column}{0.48\textwidth}
     \begin{center}
-      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/feature_importance.png}
+      \includegraphics[width=0.95\linewidth, height=0.55\textheight, keepaspectratio]{figures/feature_importance.png}
     \end{center}
     \vspace{-0.6em}
     \begin{block}{\textbf{Feature Importance Hierarchy}}
@@ -563,9 +541,9 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Conclusion \& Phase 1 Summary}
 \begin{columns}[T]
-  \begin{column}{0.5\textwidth}
+  \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Key Technical Accomplishments}}
-      \small
+      \footnotesize
       \begin{enumerate}
         \item \textbf{Standardized Pipeline}: Built leak-free scaling and 5-fold cross-validation architecture.
         \item \textbf{Parallel Execution}: Multi-core parallelized estimator evaluation and cross-validation sweeps.
@@ -577,7 +555,7 @@
 
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Phase 1 Deliverables}}
-      \small
+      \footnotesize
       \begin{itemize}
         \item \textbf{Executable Notebook}: \texttt{version1.ipynb} containing complete 10-model ML pipeline, 5-fold tuning, and 18 visual analysis modules.
         \item \textbf{Literature Base}: 5 foundational IEEE/Elsevier research papers in \texttt{research\_papers/}.
@@ -585,7 +563,7 @@
         \item \textbf{Documentation}: Comprehensive, clean \texttt{README.md}.
       \end{itemize}
     \end{block}
-    \vspace{0.5em}
+    \vspace{0.4em}
     \begin{center}
       \textbf{\textcolor{NavyPrimary}{Thank You! Open for Questions \& Discussion.}}
     \end{center}
