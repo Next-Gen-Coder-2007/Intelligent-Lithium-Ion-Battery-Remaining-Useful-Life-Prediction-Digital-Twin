@@ -44,7 +44,7 @@
   \leavevmode%
   \hbox{%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-    \usebeamerfont{author in head/foot}Battery RUL Prediction Digital Twin
+    \usebeamerfont{author in head/foot}Group 11 $\bullet$ Battery RUL Prediction Digital Twin
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
     \usebeamerfont{title in head/foot}Phase 1: Machine Learning Benchmark
@@ -60,9 +60,9 @@
 % ==============================================================================
 \title[Battery RUL Prediction Digital Twin]{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}
 \subtitle{Phase 1: Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}
-\author[Project Presentation]{Semester Project Presentation}
-\institute[Engineering Department]{Department of Machine Learning \& Data Science}
-\date[\today]{Version 1.0}
+\author[Group 11]{Group No: 11}
+\institute[Department of ML \& DS]{Department of Machine Learning \& Data Science}
+\date[\today]{Semester Project Presentation | Version 1.0}
 
 % ==============================================================================
 % DOCUMENT BEGINS
@@ -70,13 +70,44 @@
 \begin{document}
 
 % ------------------------------------------------------------------------------
-% SLIDE 1: TITLE SLIDE
+% SLIDE 1: TITLE SLIDE WITH GROUP 11 & 5 TEAM MEMBERS
 % ------------------------------------------------------------------------------
 \begin{frame}[plain]
-  \titlepage
+  \vspace{0.4em}
   \begin{center}
-    \footnotesize
-    \textcolor{DarkSlate}{\textbf{Focus:} Data-Driven Modeling $\bullet$ GPU Acceleration $\bullet$ 10-Model Empirical Benchmark $\bullet$ Diagnostic Analytics}
+    {\Large \textbf{\textcolor{NavyPrimary}{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}}}\\[0.3em]
+    {\normalsize \textbf{\textcolor{TealSecondary}{Phase 1: Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}}}\\[0.5em]
+    \textcolor{DarkSlate}{\rule{0.88\textwidth}{0.8pt}}\\[0.4em]
+    {\small \textbf{\textcolor{NavyPrimary}{Group No: 11}} \quad $\vert$ \quad \textbf{Department of Machine Learning \& Data Science}}\\[0.5em]
+  \end{center}
+
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\textbf{Team Members (1 -- 3)}}
+        \footnotesize
+        \begin{tabular}{@{}ll@{}}
+          \textbf{1.} Gandrothu Karthik & \textbf{Roll No:} 22A91A0501 \\
+          \textbf{2.} Subas M & \textbf{Roll No:} 22A91A0502 \\
+          \textbf{3.} Team Member 3 & \textbf{Roll No:} 22A91A0503 \\
+        \end{tabular}
+      \end{block}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\textbf{Team Members (4 -- 5) \& Project Details}}
+        \footnotesize
+        \begin{tabular}{@{}ll@{}}
+          \textbf{4.} Team Member 4 & \textbf{Roll No:} 22A91A0504 \\
+          \textbf{5.} Team Member 5 & \textbf{Roll No:} 22A91A0505 \\[0.2em]
+          \multicolumn{2}{@{}l}{\textbf{Project Scope:} Version 1.0 ML Benchmark} \\
+        \end{tabular}
+      \end{block}
+    \end{column}
+  \end{columns}
+  
+  \vspace{0.3em}
+  \begin{center}
+    \scriptsize \textcolor{DarkSlate}{\textbf{Focus:} Data-Driven Modeling $\bullet$ 10-Model Empirical Benchmark $\bullet$ 5-Fold Cross-Validation $\bullet$ Diagnostic Analytics}
   \end{center}
 \end{frame}
 
@@ -90,7 +121,7 @@
       \begin{itemize}\small
         \item \textbf{Dataset Processing}: 14,992 cycles analyzed across 7 operational degradation features (0 nulls, 0 duplicates).
         \item \textbf{10-Model ML Benchmark}: Bagging, gradient boosting, instance-based, decision trees, and linear baselines.
-        \item \textbf{GPU Acceleration}: CUDA-accelerated XGBoost and multi-core CPU parallel execution.
+        \item \textbf{Parallel Execution}: Multi-core parallelized estimator evaluation and cross-validation.
         \item \textbf{Rigorous 5-Fold CV}: Systematic hyperparameter tuning via \texttt{GridSearchCV}.
         \item \textbf{Top Result}: Extra Trees Regressor achieved \textbf{$R^2 = 0.9971$} and \textbf{MAE = 7.71 cycles}.
       \end{itemize}
@@ -173,7 +204,7 @@
     \end{block}
     \vspace{0.4em}
     \begin{exampleblock}{\textbf{Phase 1 Target Output}}
-      \footnotesize Deliver a validated, highly accurate, lightweight ML regression engine ready for edge deployment.
+      \footnotesize Deliver a validated, highly accurate, lightweight ML regression engine ready for embedded deployment.
     \end{exampleblock}
   \end{column}
 \end{columns}
@@ -210,7 +241,7 @@
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Gap 1: Computational Overhead on Edge BMS}}
-      \small Deep learning models demand high parameter overhead and GPU memory. A rigorous benchmark of lightweight, high-accuracy tree algorithms bridges the gap between accuracy and edge deployability.
+      \small Deep learning models demand high parameter overhead and computational memory. A rigorous benchmark of lightweight, high-accuracy tree algorithms bridges the gap between accuracy and edge deployability.
     \end{block}
     \vspace{0.4em}
     \begin{block}{\textbf{Gap 2: Absence of Standardized 10-Model Benchmarking}}
@@ -345,7 +376,7 @@
 \textbf{Model Architecture} & \textbf{Algorithmic Family} & \textbf{Engineering Justification for Battery Prognostics} \\ \midrule
 \textbf{1. Extra Trees Regressor} & Extremely Randomized Trees & Randomizes split thresholds; minimizes variance on continuous sensor data. \\
 \textbf{2. Random Forest Regressor} & Bootstrap Bagging Ensemble & Mitigates overfitting on sensor noise via de-correlated tree ensembles. \\
-\textbf{3. XGBoost (CUDA GPU)} & Scalable Gradient Boosting & 2nd-order Taylor loss optimization with GPU acceleration for rapid inference. \\
+\textbf{3. XGBoost Regressor} & Scalable Gradient Boosting & 2nd-order Taylor loss optimization with regularized split evaluation. \\
 \textbf{4. LightGBM Regressor} & Leaf-wise Histogram Boosting & GOSS and EFB algorithms optimize split finding with minimal RAM footprint. \\
 \textbf{5. Gradient Boosting (GBR)} & Stage-wise Additive Boosting & Fits sequential shallow trees to pseudo-residuals of prior estimators. \\
 \textbf{6. HistGradientBoosting} & Binned Histogram Boosting & Discretizes continuous features into 256 bins for ultra-fast split calculation. \\
@@ -381,7 +412,7 @@
 \node[stage, text width=2.8cm, below=1.1cm of d1] (d8) {\textbf{Winning Model}\\Extra Trees Regressor\\$R^2=0.9971$ | MAE=7.71 cyc};
 \node[stage, text width=2.6cm, right=of d8] (d7) {\textbf{7. Presentation Diagnostics}\\Parity ($\pm 5\% / \pm 10\%$)\\Residuals, CDF, Importance};
 \node[stage, text width=2.9cm, right=of d7] (d6) {\textbf{6. Test Set Evaluation}\\2,999 Unseen Cycles\\MAE, RMSE, $R^2$, Latency};
-\node[pipe, text width=2.8cm, right=of d6] (d5) {\textbf{5. 5-Fold GridSearchCV}\\CUDA GPU Acceleration\\Scoring: $-\text{MAE}$};
+\node[pipe, text width=2.8cm, right=of d6] (d5) {\textbf{5. 5-Fold GridSearchCV}\\Parallel Cross-Validation\\Scoring: $-\text{MAE}$};
 
 % Connectors Row 1
 \draw[arrow] (d1) -- (d2);
@@ -431,7 +462,7 @@
 \textbf{5} & \textbf{LightGBM Regressor} & 16.5085 & 16.0533 & 27.6019 & 0.9925 & 0.9904 & 8.31 \\
 \textbf{6} & \textbf{HistGradientBoosting} & 16.9568 & 16.7832 & 26.8505 & 0.9929 & 0.9909 & 2.50 \\
 \textbf{7} & \textbf{Gradient Boosting (GBR)} & 18.5645 & 17.9389 & 26.9766 & 0.9929 & 0.9830 & 27.39 \\
-\textbf{8} & \textbf{XGBoost Regressor (GPU)} & 18.8530 & 18.0052 & 26.9789 & 0.9929 & 0.9951 & 12.69 \\
+\textbf{8} & \textbf{XGBoost Regressor} & 18.8530 & 18.0052 & 26.9789 & 0.9929 & 0.9951 & 12.69 \\
 \textbf{9} & \textbf{AdaBoost Regressor} & 54.9418 & 54.2384 & 66.8102 & 0.9562 & 0.9575 & 5.56 \\
 \textbf{10} & \textbf{Ridge Regression (Linear)} & 92.5098 & 92.2592 & 150.9380 & 0.7762 & 0.7762 & 0.06 \\ \bottomrule
 \end{tabular}
@@ -515,7 +546,7 @@
       \small
       \begin{enumerate}
         \item \textbf{Standardized Pipeline}: Built leak-free scaling and 5-fold cross-validation architecture.
-        \item \textbf{Hardware Acceleration}: Deployed NVIDIA CUDA GPU for tree boosting and multi-core CPU parallelization.
+        \item \textbf{Parallel Execution}: Multi-core parallelized estimator evaluation and cross-validation sweeps.
         \item \textbf{Algorithmic Benchmark}: Evaluated 10 distinct ML architectures; identified \textbf{Extra Trees} ($R^2 = 0.9971$, $\text{MAE} = 7.71$ cyc) and \textbf{Random Forest} ($R^2 = 0.9956$, $\text{MAE} = 9.48$ cyc) as top performers.
         \item \textbf{Error Verification}: Verified $\pm 5\%$ and $\pm 10\%$ operational error bounds on unseen test cycles.
       \end{enumerate}
