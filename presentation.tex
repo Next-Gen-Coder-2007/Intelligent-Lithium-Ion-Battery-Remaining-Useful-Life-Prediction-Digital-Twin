@@ -47,7 +47,7 @@
     \usebeamerfont{author in head/foot}Battery RUL Prediction Digital Twin
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-    \usebeamerfont{title in head/foot}Project Review 1: Phase 1 ML Benchmark
+    \usebeamerfont{title in head/foot}Phase 1: Machine Learning Benchmark
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
     \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
@@ -60,9 +60,9 @@
 % ==============================================================================
 \title[Battery RUL Prediction Digital Twin]{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}
 \subtitle{Phase 1: Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}
-\author[Project Team]{Academic Project Review 1}
+\author[Project Presentation]{Semester Project Presentation}
 \institute[Engineering Department]{Department of Machine Learning \& Data Science}
-\date[\today]{Semester Project Presentation | Version 1.0}
+\date[\today]{Version 1.0}
 
 % ==============================================================================
 % DOCUMENT BEGINS
@@ -86,7 +86,7 @@
 \begin{frame}{Executive Summary \& Project Phasing}
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Version 1.0: Current Implementation (Review 1)}}
+    \begin{block}{\textbf{Version 1.0: Current Implementation (Phase 1)}}
       \begin{itemize}\small
         \item \textbf{Dataset Processing}: 14,992 cycles analyzed across 7 operational degradation features (0 nulls, 0 duplicates).
         \item \textbf{10-Model ML Benchmark}: Bagging, gradient boosting, instance-based, decision trees, and linear baselines.
@@ -98,7 +98,7 @@
   \end{column}
   
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Version 2.0: Future Roadmap (Review 2)}}
+    \begin{block}{\textbf{Version 2.0: Future Roadmap (Phase 2)}}
       \begin{itemize}\small
         \item \textbf{Battery Digital Twin}: Integration of optimized ML models with live BMS telemetry streams.
         \item \textbf{Real-Time State Estimation}: Continuous State of Health (SOH) and RUL tracking with dynamic confidence intervals.
@@ -506,29 +506,29 @@
 \end{frame}
 
 % ------------------------------------------------------------------------------
-% SLIDE 15: CONCLUSION & REVIEW 1 SUMMARY
+% SLIDE 15: CONCLUSION & PHASE 1 SUMMARY
 % ------------------------------------------------------------------------------
-\begin{frame}{Conclusion \& Review 1 Summary}
+\begin{frame}{Conclusion \& Phase 1 Summary}
 \begin{columns}[T]
   \begin{column}{0.5\textwidth}
     \begin{block}{\textbf{Key Technical Accomplishments}}
       \small
       \begin{enumerate}
         \item \textbf{Standardized Pipeline}: Built leak-free scaling and 5-fold cross-validation architecture.
-        \item \textbf{GPU Acceleration}: Deployed NVIDIA CUDA GPU for tree boosting and multi-core CPU parallelization.
+        \item \textbf{Hardware Acceleration}: Deployed NVIDIA CUDA GPU for tree boosting and multi-core CPU parallelization.
         \item \textbf{Algorithmic Benchmark}: Evaluated 10 distinct ML architectures; identified \textbf{Extra Trees} ($R^2 = 0.9971$, $\text{MAE} = 7.71$ cyc) and \textbf{Random Forest} ($R^2 = 0.9956$, $\text{MAE} = 9.48$ cyc) as top performers.
-        \item \textbf{Secondary Pipeline}: Implemented feature extraction for the official NASA PCoE 4-cell repository.
+        \item \textbf{Error Verification}: Verified $\pm 5\%$ and $\pm 10\%$ operational error bounds on unseen test cycles.
       \end{enumerate}
     \end{block}
   \end{column}
 
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Project Review 1 Deliverables}}
+    \begin{block}{\textbf{Phase 1 Deliverables}}
       \small
       \begin{itemize}
         \item \textbf{Executable Notebook}: \texttt{version1.ipynb} containing complete 10-model ML pipeline, 5-fold tuning, and 18 visual analysis modules.
-        \item \textbf{Secondary Pipeline}: \texttt{nasa\_battery\_preprocessing.py} and \texttt{nasa\_battery\_preprocessing.ipynb}.
-        \item \textbf{Literature Archive}: 5 IEEE/Elsevier research papers in \texttt{research\_papers/}.
+        \item \textbf{Literature Base}: 5 foundational IEEE/Elsevier research papers in \texttt{research\_papers/}.
+        \item \textbf{Diagnostic Suite}: Full error parity, residual fit, and feature rankings.
         \item \textbf{Documentation}: Comprehensive, clean \texttt{README.md}.
       \end{itemize}
     \end{block}
