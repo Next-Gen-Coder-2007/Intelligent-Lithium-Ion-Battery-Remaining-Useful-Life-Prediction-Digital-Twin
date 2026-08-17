@@ -33,8 +33,7 @@
 \usepackage{amsmath, amssymb, amsfonts}
 \usepackage{booktabs}
 \usepackage{array}
-\usepackage{multicol}
-\usepackage{tikz}
+\usepackage{graphicx}
 \usepackage{microtype}
 
 % Customize header/footer
@@ -43,10 +42,10 @@
   \leavevmode%
   \hbox{%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-    \usebeamerfont{author in head/foot}Lithium-Ion Battery RUL Framework
+    \usebeamerfont{author in head/foot}Battery RUL Prediction Digital Twin
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-    \usebeamerfont{title in head/foot}Project Review 1: Version 1.0
+    \usebeamerfont{title in head/foot}Project Review 1: Phase 1 ML Benchmark
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
     \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
@@ -57,8 +56,8 @@
 % ==============================================================================
 % PRESENTATION METADATA
 % ==============================================================================
-\title[Battery RUL Prediction Framework]{Intelligent Lithium-Ion Battery Remaining Useful Life (RUL) Prediction Framework}
-\subtitle{Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}
+\title[Battery RUL Prediction Digital Twin]{Intelligent Lithium-Ion Battery Remaining Useful Life Prediction Digital Twin}
+\subtitle{Phase 1: Machine Learning Pipeline Benchmarking, 5-Fold Cross-Validation, and Hyperparameter Optimization}
 \author[Project Team]{Academic Project Review 1}
 \institute[Engineering Department]{Department of Machine Learning \& Data Science}
 \date[\today]{Semester Project Presentation | Version 1.0}
@@ -88,8 +87,8 @@
     \begin{block}{\textbf{Version 1.0: Current Implementation (Review 1)}}
       \begin{itemize}\small
         \item \textbf{Dataset Processing}: 14,992 cycles analyzed across 7 operational degradation features (0 nulls, 0 duplicates).
-        \item \textbf{10-Model ML Benchmark}: Evaluated bagging, boosting, instance-based, trees, and linear baselines.
-        \item \textbf{GPU Acceleration}: CUDA-accelerated XGBoost and multi-core CPU parallelization.
+        \item \textbf{10-Model ML Benchmark}: Bagging, gradient boosting, instance-based, decision trees, and linear baselines.
+        \item \textbf{GPU Acceleration}: CUDA-accelerated XGBoost and multi-core CPU parallel execution.
         \item \textbf{Rigorous 5-Fold CV}: Systematic hyperparameter tuning via \texttt{GridSearchCV}.
         \item \textbf{Top Result}: Extra Trees Regressor achieved \textbf{$R^2 = 0.9971$} and \textbf{MAE = 7.71 cycles}.
       \end{itemize}
@@ -121,9 +120,9 @@
       \item \textbf{Loss of Active Material (LAM)}: Cyclic intercalation stress induces mechanical micro-cracking and particle detachment at the cathode.
       \item \textbf{Impedance Rise ($R_{\text{int}}$)}: Polarization escalation triggers terminal voltage drops during discharge and premature charge cutoffs.
     \end{itemize}
-    \vspace{0.5em}
+    \vspace{0.4em}
     \begin{alertblock}{\textbf{End-of-Life (EOL) Criterion}}
-      \small When battery capacity drops below \textbf{70\%--80\% of nominal rating}, the cell enters a steep degradation knee prone to thermal runaway.
+      \small When capacity drops below \textbf{70\%--80\% of nominal rating}, the cell enters a steep degradation knee prone to thermal runaway.
     \end{alertblock}
   \end{column}
 
@@ -137,7 +136,7 @@
     \vspace{0.3em}
     \textbf{Core Engineering Challenge:}
     \begin{itemize}\footnotesize
-      \item Estimate $\text{RUL}(t)$ accurately and non-invasively using external surface sensor telemetry (voltage cutoffs, discharge duration, dwell times).
+      \item Estimate $\text{RUL}(t)$ accurately and non-invasively using external surface sensor telemetry without intrusive electrochemical probing.
     \end{itemize}
   \end{column}
 \end{columns}
@@ -148,9 +147,9 @@
 % ------------------------------------------------------------------------------
 \begin{frame}{Project Objectives (Version 1.0 Scope)}
 \begin{columns}[T]
-  \begin{column}{0.5\textwidth}
+  \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Objective 1: Statistical EDA \& Integrity}}
-      \small Fully evaluate statistical moments, probability distributions, skewness, kurtosis, and correlation structure across 14,992 degradation records.
+      \small Fully evaluate statistical moments, probability distributions, skewness, kurtosis, and correlation structure across 14,992 records.
     \end{block}
     \vspace{0.3em}
     \begin{block}{\textbf{Objective 2: Standardized Pipeline Design}}
@@ -182,10 +181,9 @@
 % SLIDE 5: COMPREHENSIVE LITERATURE REVIEW
 % ------------------------------------------------------------------------------
 \begin{frame}{Literature Review: 5 Foundational Research Papers}
-\small
+\scriptsize
 \begin{table}[]
 \centering
-\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}llll@{}}
 \toprule
 \textbf{Paper / Reference} & \textbf{Publication Venue} & \textbf{Key Methodology / Focus} & \textbf{Takeaway for Our Project} \\ \midrule
@@ -194,10 +192,9 @@
 \textbf{3. Liu \& Chen (2019)} & \textit{IEEE Access} & Health Indicators + Gaussian Process Reg. & Validates indirect voltage/charging indicators as RUL proxies. \\
 \textbf{4. Wang et al. (2023)} & \textit{IEEE / arXiv} & Two-Stage Early Non-Linear Prognostics & Confirms non-linear tree models handle steep degradation knees. \\
 \textbf{5. Zhang et al. (2024)} & \textit{IEEE / arXiv} & Hybrid Attention Networks vs. Tabular Noise & Shows tuned tree ensembles excel on tabular cycle features. \\ \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
-\vspace{0.5em}
+\vspace{0.3em}
 \begin{block}{\textbf{Synthesis of Literature Findings}}
   \footnotesize
   \textbf{Key Finding:} On tabular cycle metrics, tuned tree ensembles (Extra Trees, Random Forest, XGBoost, LightGBM) achieve competitive or superior accuracy compared to deep neural networks while maintaining sub-millisecond execution latencies suitable for edge controllers.
@@ -211,7 +208,7 @@
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Gap 1: Computational Overhead on Edge BMS}}
-      \small Deep learning models (Transformers, LSTMs) demand high parameter overhead and GPU memory. A rigorous benchmark of lightweight, high-accuracy tree algorithms bridges the gap between accuracy and edge deployability.
+      \small Deep learning models demand high parameter overhead and GPU memory. A rigorous benchmark of lightweight, high-accuracy tree algorithms bridges the gap between accuracy and edge deployability.
     \end{block}
     \vspace{0.4em}
     \begin{block}{\textbf{Gap 2: Absence of Standardized 10-Model Benchmarking}}
@@ -262,56 +259,41 @@
         \item \textbf{Missing Values}: 0 nulls across 14,992 rows.
         \item \textbf{Infinite Values}: 0 infs.
         \item \textbf{Duplicates}: 0 duplicates.
-        \item \textbf{Target Distribution}: Uniform continuum spanning 0 to 1,133 cycles ($\text{Skew} = +0.0037$), eliminating sampling bias.
+        \item \textbf{Target Distribution}: Uniform continuum (0 to 1,133 cycles, $\text{Skew} = +0.0037$), eliminating sampling bias.
       \end{itemize}
     \end{block}
     \vspace{0.2em}
-    \begin{exampleblock}{\textbf{Key Physical Findings}}
-      \footnotesize Terminal discharge cutoff voltage drops ($r=+0.789$) and minimum charging voltage rises ($r=-0.768$) as internal cell impedance escalates.
+    \begin{exampleblock}{\textbf{Physical Insights}}
+      \footnotesize Discharge cutoff voltage drops ($r=+0.789$) and minimum charging voltage rises ($r=-0.768$) with cell aging.
     \end{exampleblock}
   \end{column}
 \end{columns}
 \end{frame}
 
 % ------------------------------------------------------------------------------
-% SLIDE 8: EXPLORATORY DATA ANALYSIS: KEY VISUAL FINDINGS
+% SLIDE 8: EXPLORATORY DATA ANALYSIS: TARGET RUL DISTRIBUTION
 % ------------------------------------------------------------------------------
-\begin{frame}{Exploratory Data Analysis: Key Visual Findings}
+\begin{frame}{Exploratory Data Analysis: Target Distribution \& Normality Fit}
+\begin{center}
+  \includegraphics[width=0.88\textwidth, height=0.55\textheight, keepaspectratio]{figures/eda_target_distribution.png}
+\end{center}
+\vspace{-0.5em}
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Target RUL Distribution \& Normality Fit}}
-      \small
+    \begin{block}{\textbf{Statistical Normality Analysis}}
+      \footnotesize
       \begin{itemize}
-        \item Evaluated RUL against fitted Gaussian density:
-        $$N(\mu = 554.94, \sigma = 322.18)$$
-        \item Quantile partition: $Q_1 = 279$, $\text{Median} = 551$, $Q_3 = 840$ cycles.
-        \item Uniform distribution across 0 to 1,133 cycles ensures balanced regression training without class imbalance.
-      \end{itemize}
-    \end{block}
-    \vspace{0.3em}
-    \begin{block}{\textbf{Univariate Probability Densities}}
-      \small
-      \begin{itemize}
-        \item Positive skewness observed in charging dwell times due to late-stage constant voltage saturation.
+        \item Target variable follows Gaussian fit: $N(\mu = 554.94, \sigma = 322.18)$.
+        \item Near-zero skewness ($+0.0037$) confirms uniform degradation lifecycle.
       \end{itemize}
     \end{block}
   \end{column}
-
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Bivariate Degradation Trajectories}}
-      \small
+    \begin{block}{\textbf{Lifecycle Quantile Partitioning}}
+      \footnotesize
       \begin{itemize}
-        \item Fitted 2nd-order polynomial regression curves:
-        $$y = \beta_0 + \beta_1 x + \beta_2 x^2$$
-        \item Confirms pronounced non-linear curvature in terminal voltage drops as RUL approaches zero.
-      \end{itemize}
-    \end{block}
-    \vspace{0.3em}
-    \begin{block}{\textbf{Lifecycle Stage Radar Profiles}}
-      \small
-      \begin{itemize}
-        \item Mapped 4 aging stages: \textbf{Fresh} ($>840$), \textbf{Healthy} ($560$--$840$), \textbf{Aged} ($280$--$560$), and \textbf{Near EOL} ($<280$ cyc).
-        \item Clear separation in voltage and dwell duration profiles across degradation quartiles.
+        \item $Q_1 = 279$ cycles, $\text{Median} = 551$ cycles, $Q_3 = 840$ cycles.
+        \item Spans full operational lifetime (0 to 1,133 cycles) without data clustering.
       \end{itemize}
     \end{block}
   \end{column}
@@ -321,38 +303,28 @@
 % ------------------------------------------------------------------------------
 % SLIDE 9: CORRELATION & MULTICOLLINEARITY ANALYSIS
 % ------------------------------------------------------------------------------
-\begin{frame}{Correlation \& Multicollinearity Analysis}
+\begin{frame}{Exploratory Data Analysis: Correlation \& Multicollinearity}
+\begin{center}
+  \includegraphics[width=0.88\textwidth, height=0.55\textheight, keepaspectratio]{figures/eda_correlation_heatmaps.png}
+\end{center}
+\vspace{-0.5em}
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Linear vs. Rank Correlation Heatmaps}}
-      \small
+      \footnotesize
       \begin{itemize}
-        \item Pearson ($r$) vs. Spearman ($\rho$) correlation matrices.
-        \item Strongest linear predictors of RUL:
-        \begin{itemize}\footnotesize
-          \item \texttt{Max. Voltage Dischar.}: $r = +0.789$
-          \item \texttt{Min. Voltage Charg.}: $r = -0.768$
-          \item \texttt{Time at 4.15V}: $r = +0.175$
-        \end{itemize}
-        \item Spearman rank correlation revealed monotonic dependencies between charging phases ($|\rho| > |r|$).
+        \item \texttt{Max. Voltage Dischar.}: $r = +0.789$ (strongest positive predictor).
+        \item \texttt{Min. Voltage Charg.}: $r = -0.768$ (strongest negative predictor).
+        \item Spearman rank correlation confirms monotonic dependencies ($|\rho| > |r|$).
       \end{itemize}
     \end{block}
   \end{column}
-
   \begin{column}{0.48\textwidth}
     \begin{block}{\textbf{Multicollinearity Diagnostics (VIF)}}
-      \small
+      \footnotesize
       \begin{itemize}
-        \item Computed Variance Inflation Factors (VIF) for all operational inputs.
-        \item High collinearity observed between \texttt{Charging time} and \texttt{Time constant current} ($\text{VIF} > 10$).
-        \item Confirms that tree-based ensemble methods with orthogonal split selection are required over collinearity-sensitive linear models.
-      \end{itemize}
-    \end{block}
-    \vspace{0.3em}
-    \begin{block}{\textbf{PCA 2D Degradation Manifold}}
-      \small
-      \begin{itemize}
-        \item Top 2 Principal Components capture $>65\%$ variance, revealing a continuous 1D aging trajectory across latent space.
+        \item High collinearity observed in charging times ($\text{VIF} > 10$).
+        \item Proves tree-based ensembles with orthogonal split selection are required over linear models.
       \end{itemize}
     \end{block}
   \end{column}
@@ -446,43 +418,39 @@
 \begin{columns}[T]
   \begin{column}{0.48\textwidth}
     \begin{exampleblock}{\textbf{Key Finding 1: Extra Trees Dominance}}
-      \footnotesize Extra Trees achieved the lowest Test MAE (\textbf{7.71 cycles}) and highest $R^2$ (\textbf{0.9971}) due to randomized threshold splitting across dense operational features.
+      \footnotesize Extra Trees achieved lowest Test MAE (\textbf{7.71 cycles}) and highest $R^2$ (\textbf{0.9971}) via randomized threshold splitting.
     \end{exampleblock}
   \end{column}
   \begin{column}{0.48\textwidth}
     \begin{alertblock}{\textbf{Key Finding 2: Failure of Linear Baselines}}
-      \footnotesize Ridge Regression achieved only $R^2 = 0.7762$ and MAE $= 92.26$ cycles, demonstrating that linear models fail on battery degradation dynamics.
+      \footnotesize Ridge Regression achieved only $R^2 = 0.7762$ and MAE $= 92.26$ cycles, demonstrating that linear models fail on battery degradation.
     \end{alertblock}
   \end{column}
 \end{columns}
 \end{frame}
 
 % ------------------------------------------------------------------------------
-% SLIDE 13: MODEL DIAGNOSTICS: PREDICTION PARITY & ERROR ENVELOPES
+% SLIDE 13: MODEL DIAGNOSTICS: PARITY ENVELOPES & CDF ACCURACY
 % ------------------------------------------------------------------------------
-\begin{frame}{Model Performance Diagnostics: Parity \& Error Envelopes}
+\begin{frame}{Model Diagnostics: Prediction Parity \& Error CDF Curves}
 \begin{columns}[T]
-  \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Actual vs. Predicted Parity Diagnostics}}
-      \small
-      \begin{itemize}
-        \item High-precision parity evaluation ($y_{\text{true}}$ vs. $y_{\text{pred}}$) on unseen test set (2,999 cycles).
-        \item Top models (Extra Trees, Random Forest) remain tightly aligned along ideal $y = x$ parity line.
-        \item Predictions strictly stay within \textbf{$\pm 5\%$} and \textbf{$\pm 10\%$} operational tolerance envelopes across the entire 0--1,133 cycle continuum.
-      \end{itemize}
+  \begin{column}{0.5\textwidth}
+    \begin{center}
+      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/parity_error_bounds.png}
+    \end{center}
+    \vspace{-0.6em}
+    \begin{block}{\textbf{Parity Tolerance Bounds}}
+      \scriptsize Top models remain tightly bounded within $\pm 5\%$ and $\pm 10\%$ operational error bands across 0--1,133 cycles.
     \end{block}
   \end{column}
 
   \begin{column}{0.48\textwidth}
+    \begin{center}
+      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/accuracy_cdf_curve.png}
+    \end{center}
+    \vspace{-0.6em}
     \begin{block}{\textbf{Cumulative Prediction Accuracy (CDF)}}
-      \small
-      \begin{itemize}
-        \item Evaluated cumulative absolute error distribution:
-        $$F(e) = P(|y - \hat{y}| \le e)$$
-        \item \textbf{Extra Trees}: Median error = \textbf{3.24 cycles}; \textbf{>85\%} of test cycles predicted within $\le 10$ cycles; \textbf{>95\%} within $\le 20$ cycles.
-        \item \textbf{Random Forest}: Median error = \textbf{4.12 cycles}; \textbf{>80\%} of test cycles within $\le 10$ cycles.
-        \item Confirms exceptional reliability for operational battery management systems.
-      \end{itemize}
+      \scriptsize \textbf{Extra Trees}: Median error = \textbf{3.24 cyc}; \textbf{>85\%} of test predictions fall within $\le 10$ cycles; \textbf{>95\%} within $\le 20$ cycles.
     \end{block}
   \end{column}
 \end{columns}
@@ -491,30 +459,25 @@
 % ------------------------------------------------------------------------------
 % SLIDE 14: RESIDUAL DIAGNOSTICS & FEATURE IMPORTANCE
 % ------------------------------------------------------------------------------
-\begin{frame}{Residual Diagnostics \& Feature Importance Rankings}
+\begin{frame}{Model Diagnostics: Residuals \& Feature Importance Rankings}
 \begin{columns}[T]
-  \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Residual Homoscedasticity \& Normality}}
-      \small
-      \begin{itemize}
-        \item Residual error ($e = y - \hat{y}$) plotted against predicted RUL shows uniform dispersion around zero (homoscedasticity).
-        \item Gaussian distribution fit:
-        $$N(\mu = -0.12, \sigma = 17.14)$$
-        \item Absence of curvature or skewness confirms models capture full non-linear aging dynamics without systematic bias.
-      \end{itemize}
+  \begin{column}{0.5\textwidth}
+    \begin{center}
+      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/residual_diagnostics.png}
+    \end{center}
+    \vspace{-0.6em}
+    \begin{block}{\textbf{Residual Homoscedasticity}}
+      \scriptsize Zero-mean normal distribution fit: $N(\mu = -0.12, \sigma = 17.14)$, verifying absence of systematic prediction bias.
     \end{block}
   \end{column}
 
   \begin{column}{0.48\textwidth}
-    \begin{block}{\textbf{Ensemble Feature Importance Comparison}}
-      \small
-      \begin{itemize}
-        \item Evaluated Gini impurity and split gain across Extra Trees, Random Forest, XGBoost, and LightGBM.
-        \item \textbf{\texttt{Max. Voltage Dischar. (V)}}: Primary predictor ($>45\%$ relative importance).
-        \item \textbf{\texttt{Min. Voltage Charg. (V)}}: Secondary predictor ($>25\%$ relative importance).
-        \item \textbf{\texttt{Time at 4.15V (s)}}: Dominant charging dwell feature ($>15\%$ importance).
-        \item Directly aligns with electrochemical principles of polarization and internal impedance rise.
-      \end{itemize}
+    \begin{center}
+      \includegraphics[width=0.98\linewidth, height=0.68\textheight, keepaspectratio]{figures/feature_importance.png}
+    \end{center}
+    \vspace{-0.6em}
+    \begin{block}{\textbf{Feature Importance Hierarchy}}
+      \scriptsize Voltage cutoffs (\texttt{Max. Voltage Dischar.} \& \texttt{Min. Voltage Charg.}) drive $>70\%$ total feature split importance.
     \end{block}
   \end{column}
 \end{columns}
@@ -532,7 +495,7 @@
         \item \textbf{Standardized Pipeline}: Built leak-free scaling and 5-fold cross-validation architecture.
         \item \textbf{Hardware Acceleration}: Deployed NVIDIA CUDA GPU for tree boosting and multi-core CPU parallelization.
         \item \textbf{Algorithmic Benchmark}: Evaluated 10 distinct ML architectures; identified \textbf{Extra Trees} ($R^2 = 0.9971$, $\text{MAE} = 7.71$ cyc) and \textbf{Random Forest} ($R^2 = 0.9956$, $\text{MAE} = 9.48$ cyc) as top performers.
-        \item \textbf{Multi-Dataset Pipeline}: Implemented feature extraction for the official NASA PCoE 4-cell repository.
+        \item \textbf{Secondary Pipeline}: Implemented feature extraction for the official NASA PCoE 4-cell repository.
       \end{enumerate}
     \end{block}
   \end{column}
