@@ -1,0 +1,537 @@
+{
+  "dataset_name": "nasa",
+  "total_samples": 636,
+  "train_samples": 508,
+  "test_samples": 128,
+  "feature_count": 17,
+  "feature_names": [
+    "Discharge_Capacity_Ah",
+    "SOH_Pct",
+    "Max_Discharge_Voltage_V",
+    "Min_Discharge_Voltage_V",
+    "Mean_Discharge_Voltage_V",
+    "Mean_Discharge_Current_A",
+    "Max_Discharge_Temp_C",
+    "Mean_Discharge_Temp_C",
+    "Discharge_Duration_s",
+    "Time_to_3_5V_s",
+    "Time_to_3_2V_s",
+    "CC_Charge_Time_s",
+    "CV_Charge_Time_s",
+    "Total_Charge_Time_s",
+    "Max_Charge_Temp_C",
+    "Electrolyte_Resistance_Re",
+    "Charge_Transfer_Resistance_Rct"
+  ],
+  "target_name": "RUL",
+  "best_model": "SVR",
+  "models": [
+    {
+      "model_name": "SVR",
+      "train_r2": 0.9964,
+      "test_r2": 0.9965,
+      "cv_r2_mean": 0.9824,
+      "test_mae": 1.8,
+      "cv_mae_mean": 3.13,
+      "test_rmse": 2.46,
+      "cv_rmse_mean": 5.86,
+      "max_error": 8.33,
+      "train_time_s": 0.294,
+      "latency_per_sample_ms": 0.1046,
+      "is_recommended": true
+    },
+    {
+      "model_name": "Stacking Ensemble",
+      "train_r2": 0.9995,
+      "test_r2": 0.9926,
+      "cv_r2_mean": 0.9883,
+      "test_mae": 2.4,
+      "cv_mae_mean": 3.1,
+      "test_rmse": 3.55,
+      "cv_rmse_mean": 4.89,
+      "max_error": 16.34,
+      "train_time_s": 9.876,
+      "latency_per_sample_ms": 0.4914,
+      "is_recommended": false
+    },
+    {
+      "model_name": "Gradient Boosting",
+      "train_r2": 0.9999,
+      "test_r2": 0.9925,
+      "cv_r2_mean": 0.9862,
+      "test_mae": 2.38,
+      "cv_mae_mean": 2.99,
+      "test_rmse": 3.58,
+      "cv_rmse_mean": 5.28,
+      "max_error": 12.73,
+      "train_time_s": 6.16,
+      "latency_per_sample_ms": 0.0156,
+      "is_recommended": false
+    },
+    {
+      "model_name": "XGBoost",
+      "train_r2": 1.0,
+      "test_r2": 0.992,
+      "cv_r2_mean": 0.9873,
+      "test_mae": 2.25,
+      "cv_mae_mean": 3.01,
+      "test_rmse": 3.71,
+      "cv_rmse_mean": 5.08,
+      "max_error": 15.2,
+      "train_time_s": 9.478,
+      "latency_per_sample_ms": 0.0235,
+      "is_recommended": false
+    },
+    {
+      "model_name": "Random Forest",
+      "train_r2": 0.9981,
+      "test_r2": 0.9892,
+      "cv_r2_mean": 0.9849,
+      "test_mae": 2.66,
+      "cv_mae_mean": 3.35,
+      "test_rmse": 4.3,
+      "cv_rmse_mean": 5.51,
+      "max_error": 19.16,
+      "train_time_s": 4.894,
+      "latency_per_sample_ms": 0.5496,
+      "is_recommended": false
+    },
+    {
+      "model_name": "LightGBM",
+      "train_r2": 0.9986,
+      "test_r2": 0.9887,
+      "cv_r2_mean": 0.9866,
+      "test_mae": 2.66,
+      "cv_mae_mean": 3.31,
+      "test_rmse": 4.4,
+      "cv_rmse_mean": 5.2,
+      "max_error": 22.57,
+      "train_time_s": 4.256,
+      "latency_per_sample_ms": 0.0235,
+      "is_recommended": false
+    }
+  ],
+  "feature_importances": {
+    "Random Forest": [
+      {
+        "feature": "Time_to_3_5V_s",
+        "importance": 0.2202
+      },
+      {
+        "feature": "Time_to_3_2V_s",
+        "importance": 0.161
+      },
+      {
+        "feature": "SOH_Pct",
+        "importance": 0.1579
+      },
+      {
+        "feature": "Discharge_Capacity_Ah",
+        "importance": 0.1387
+      },
+      {
+        "feature": "Mean_Discharge_Voltage_V",
+        "importance": 0.0813
+      },
+      {
+        "feature": "CC_Charge_Time_s",
+        "importance": 0.0699
+      },
+      {
+        "feature": "Discharge_Duration_s",
+        "importance": 0.0465
+      },
+      {
+        "feature": "Mean_Discharge_Current_A",
+        "importance": 0.0341
+      },
+      {
+        "feature": "Min_Discharge_Voltage_V",
+        "importance": 0.0252
+      },
+      {
+        "feature": "CV_Charge_Time_s",
+        "importance": 0.0166
+      },
+      {
+        "feature": "Max_Discharge_Voltage_V",
+        "importance": 0.0155
+      },
+      {
+        "feature": "Max_Discharge_Temp_C",
+        "importance": 0.012
+      },
+      {
+        "feature": "Charge_Transfer_Resistance_Rct",
+        "importance": 0.0062
+      },
+      {
+        "feature": "Mean_Discharge_Temp_C",
+        "importance": 0.0056
+      },
+      {
+        "feature": "Electrolyte_Resistance_Re",
+        "importance": 0.005
+      },
+      {
+        "feature": "Max_Charge_Temp_C",
+        "importance": 0.003
+      },
+      {
+        "feature": "Total_Charge_Time_s",
+        "importance": 0.0012
+      }
+    ],
+    "Gradient Boosting": [
+      {
+        "feature": "Time_to_3_5V_s",
+        "importance": 0.8311
+      },
+      {
+        "feature": "SOH_Pct",
+        "importance": 0.0348
+      },
+      {
+        "feature": "Discharge_Capacity_Ah",
+        "importance": 0.0279
+      },
+      {
+        "feature": "Mean_Discharge_Current_A",
+        "importance": 0.0255
+      },
+      {
+        "feature": "Min_Discharge_Voltage_V",
+        "importance": 0.0243
+      },
+      {
+        "feature": "Max_Discharge_Voltage_V",
+        "importance": 0.0218
+      },
+      {
+        "feature": "CC_Charge_Time_s",
+        "importance": 0.008
+      },
+      {
+        "feature": "Time_to_3_2V_s",
+        "importance": 0.0077
+      },
+      {
+        "feature": "Discharge_Duration_s",
+        "importance": 0.0051
+      },
+      {
+        "feature": "Mean_Discharge_Temp_C",
+        "importance": 0.0045
+      },
+      {
+        "feature": "Max_Discharge_Temp_C",
+        "importance": 0.0032
+      },
+      {
+        "feature": "Mean_Discharge_Voltage_V",
+        "importance": 0.0016
+      },
+      {
+        "feature": "Charge_Transfer_Resistance_Rct",
+        "importance": 0.0012
+      },
+      {
+        "feature": "Max_Charge_Temp_C",
+        "importance": 0.001
+      },
+      {
+        "feature": "Electrolyte_Resistance_Re",
+        "importance": 0.0008
+      },
+      {
+        "feature": "Total_Charge_Time_s",
+        "importance": 0.0008
+      },
+      {
+        "feature": "CV_Charge_Time_s",
+        "importance": 0.0008
+      }
+    ],
+    "XGBoost": [
+      {
+        "feature": "Time_to_3_5V_s",
+        "importance": 0.8066
+      },
+      {
+        "feature": "Time_to_3_2V_s",
+        "importance": 0.0645
+      },
+      {
+        "feature": "SOH_Pct",
+        "importance": 0.0325
+      },
+      {
+        "feature": "Discharge_Capacity_Ah",
+        "importance": 0.0271
+      },
+      {
+        "feature": "Min_Discharge_Voltage_V",
+        "importance": 0.0159
+      },
+      {
+        "feature": "Mean_Discharge_Current_A",
+        "importance": 0.0143
+      },
+      {
+        "feature": "CC_Charge_Time_s",
+        "importance": 0.0093
+      },
+      {
+        "feature": "Electrolyte_Resistance_Re",
+        "importance": 0.0077
+      },
+      {
+        "feature": "Max_Discharge_Voltage_V",
+        "importance": 0.0061
+      },
+      {
+        "feature": "Discharge_Duration_s",
+        "importance": 0.0046
+      },
+      {
+        "feature": "Max_Discharge_Temp_C",
+        "importance": 0.0038
+      },
+      {
+        "feature": "Charge_Transfer_Resistance_Rct",
+        "importance": 0.0029
+      },
+      {
+        "feature": "Mean_Discharge_Voltage_V",
+        "importance": 0.0021
+      },
+      {
+        "feature": "Mean_Discharge_Temp_C",
+        "importance": 0.0013
+      },
+      {
+        "feature": "Total_Charge_Time_s",
+        "importance": 0.0007
+      },
+      {
+        "feature": "Max_Charge_Temp_C",
+        "importance": 0.0004
+      },
+      {
+        "feature": "CV_Charge_Time_s",
+        "importance": 0.0003
+      }
+    ],
+    "LightGBM": [
+      {
+        "feature": "Discharge_Duration_s",
+        "importance": 244.0
+      },
+      {
+        "feature": "CC_Charge_Time_s",
+        "importance": 210.0
+      },
+      {
+        "feature": "Max_Discharge_Voltage_V",
+        "importance": 195.0
+      },
+      {
+        "feature": "Min_Discharge_Voltage_V",
+        "importance": 173.0
+      },
+      {
+        "feature": "Total_Charge_Time_s",
+        "importance": 168.0
+      },
+      {
+        "feature": "Mean_Discharge_Temp_C",
+        "importance": 162.0
+      },
+      {
+        "feature": "Discharge_Capacity_Ah",
+        "importance": 152.0
+      },
+      {
+        "feature": "Time_to_3_5V_s",
+        "importance": 152.0
+      },
+      {
+        "feature": "Mean_Discharge_Current_A",
+        "importance": 145.0
+      },
+      {
+        "feature": "Max_Charge_Temp_C",
+        "importance": 145.0
+      },
+      {
+        "feature": "Max_Discharge_Temp_C",
+        "importance": 124.0
+      },
+      {
+        "feature": "CV_Charge_Time_s",
+        "importance": 98.0
+      },
+      {
+        "feature": "Time_to_3_2V_s",
+        "importance": 78.0
+      },
+      {
+        "feature": "Mean_Discharge_Voltage_V",
+        "importance": 76.0
+      },
+      {
+        "feature": "Electrolyte_Resistance_Re",
+        "importance": 36.0
+      },
+      {
+        "feature": "SOH_Pct",
+        "importance": 35.0
+      },
+      {
+        "feature": "Charge_Transfer_Resistance_Rct",
+        "importance": 6.0
+      }
+    ],
+    "SVR": [
+      {
+        "feature": "Discharge_Capacity_Ah",
+        "importance": 0.0588
+      },
+      {
+        "feature": "SOH_Pct",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Max_Discharge_Voltage_V",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Min_Discharge_Voltage_V",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Mean_Discharge_Voltage_V",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Mean_Discharge_Current_A",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Max_Discharge_Temp_C",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Mean_Discharge_Temp_C",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Discharge_Duration_s",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Time_to_3_5V_s",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Time_to_3_2V_s",
+        "importance": 0.0588
+      },
+      {
+        "feature": "CC_Charge_Time_s",
+        "importance": 0.0588
+      },
+      {
+        "feature": "CV_Charge_Time_s",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Total_Charge_Time_s",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Max_Charge_Temp_C",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Electrolyte_Resistance_Re",
+        "importance": 0.0588
+      },
+      {
+        "feature": "Charge_Transfer_Resistance_Rct",
+        "importance": 0.0588
+      }
+    ],
+    "Stacking Ensemble": [
+      {
+        "feature": "Max_Discharge_Voltage_V",
+        "importance": 53.0067
+      },
+      {
+        "feature": "Discharge_Duration_s",
+        "importance": 47.0026
+      },
+      {
+        "feature": "Discharge_Capacity_Ah",
+        "importance": 43.0231
+      },
+      {
+        "feature": "CC_Charge_Time_s",
+        "importance": 40.0051
+      },
+      {
+        "feature": "Time_to_3_5V_s",
+        "importance": 37.5566
+      },
+      {
+        "feature": "Mean_Discharge_Current_A",
+        "importance": 37.0174
+      },
+      {
+        "feature": "Min_Discharge_Voltage_V",
+        "importance": 36.3502
+      },
+      {
+        "feature": "Mean_Discharge_Temp_C",
+        "importance": 32.0019
+      },
+      {
+        "feature": "Total_Charge_Time_s",
+        "importance": 29.0005
+      },
+      {
+        "feature": "Max_Discharge_Temp_C",
+        "importance": 23.0019
+      },
+      {
+        "feature": "Mean_Discharge_Voltage_V",
+        "importance": 22.6674
+      },
+      {
+        "feature": "Max_Charge_Temp_C",
+        "importance": 20.334
+      },
+      {
+        "feature": "CV_Charge_Time_s",
+        "importance": 18.3337
+      },
+      {
+        "feature": "Time_to_3_2V_s",
+        "importance": 16.682
+      },
+      {
+        "feature": "Electrolyte_Resistance_Re",
+        "importance": 10.004
+      },
+      {
+        "feature": "SOH_Pct",
+        "importance": 0.0126
+      },
+      {
+        "feature": "Charge_Transfer_Resistance_Rct",
+        "importance": 0.0003
+      }
+    ]
+  },
+  "generated_at": "2026-08-18T03:54:30Z"
+}
