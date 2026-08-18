@@ -102,7 +102,7 @@ export default function BatteryCellHologram({ state }) {
         <div className="bg-[#121824] p-2.5 rounded-lg border border-[#1e2738]">
           <span className="text-[10px] text-slate-400 block">State of Charge (SOC)</span>
           <span className="text-base font-semibold text-white font-mono mt-0.5 block">
-            {socPct ? socPct.toFixed(1) : soc_pct.toFixed(1)}%
+            {soc_pct.toFixed(1)}%
           </span>
           <div className="w-full bg-slate-800 h-1 rounded-full mt-1.5 overflow-hidden">
             <div 
