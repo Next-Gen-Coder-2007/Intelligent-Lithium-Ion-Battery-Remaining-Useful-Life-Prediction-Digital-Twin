@@ -3,4 +3,10 @@ nasa_raw_data/*.zip
 nasa_raw_data/5. Battery Data Set/
 *.zip
 __pycache__/
+*.pyc
 .ipynb_checkpoints/
+*.sqlite3
+node_modules/
+frontend/dist/
+staticfiles/
+.env
