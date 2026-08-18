@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: battery-digital-twin
+    env: python
+    buildCommand: |
+      pip install -r backend/requirements.txt
+      cd backend
+      python manage.py migrate
+      python manage.py collectstatic --noinput
+    startCommand: |
+      cd backend
+      gunicorn battery_twin.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DJANGO_DEBUG
+        value: False
+      - key: DJANGO_ALLOWED_HOSTS
+        value: .onrender.com,localhost,127.0.0.1

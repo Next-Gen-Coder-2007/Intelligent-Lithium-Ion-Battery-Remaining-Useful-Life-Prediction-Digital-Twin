@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  battery-digital-twin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: battery_digital_twin_app
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_DEBUG=False
+      - DJANGO_SECRET_KEY=production-battery-digital-twin-secure-key-2026
+      - DJANGO_ALLOWED_HOSTS=*
+    restart: unless-stopped
