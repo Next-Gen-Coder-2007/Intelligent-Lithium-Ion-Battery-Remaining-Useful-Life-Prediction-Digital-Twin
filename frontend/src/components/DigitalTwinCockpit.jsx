@@ -8,14 +8,7 @@ import {
   Thermometer, 
   Gauge, 
   Activity, 
-  Sliders, 
-  ArrowRight,
-  TrendingDown,
-  ShieldCheck,
-  AlertTriangle,
-  Radio,
-  Sparkles,
-  Info
+  Sliders
 } from 'lucide-react';
 import { 
   LineChart, 
@@ -26,8 +19,7 @@ import {
   Tooltip, 
   ResponsiveContainer,
   AreaChart,
-  Area,
-  ReferenceLine
+  Area
 } from 'recharts';
 
 import BatteryCellHologram from './BatteryCellHologram';
@@ -41,7 +33,6 @@ export default function DigitalTwinCockpit() {
   const [isCharging, setIsCharging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Live state from simulation API
   const [cellState, setCellState] = useState({
     cycle_index: 15,
     soc_pct: 80,
@@ -68,7 +59,6 @@ export default function DigitalTwinCockpit() {
     }
   });
 
-  // Real-time telemetry history for oscilloscope chart
   const [history, setHistory] = useState([
     { tick: 1, voltage: 3.88, temp: 25.4, soh: 96.5, rul: 120, capacity: 1.93 },
     { tick: 5, voltage: 3.85, temp: 26.1, soh: 95.8, rul: 116, capacity: 1.916 },
@@ -133,58 +123,50 @@ export default function DigitalTwinCockpit() {
   }, [isPlaying]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       
-      {/* Top Banner: Digital Twin Cockpit Summary */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel rounded-2xl p-4.5 border border-slate-800 shadow-xl">
-        <div className="flex items-center gap-3.5">
-          <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
-            <Activity className="w-5 h-5 animate-pulse" />
+      {/* Top Header & Playback Controls */}
+      <div className="card-clean p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-white tracking-tight">
+              Virtual Cell Test Bench
+            </h2>
+            <span className="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+              Cycle {cycleIndex} of 168
+            </span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-base font-extrabold text-white tracking-wide font-mono">
-                VIRTUAL TEST BENCH & DIGITAL TWIN HUD
-              </h2>
-              <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-mono font-bold">
-                CYCLE {cycleIndex} / 168
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 font-mono">
-              Live electrochemical degradation tracking with multi-model predictive prognostics
-            </p>
-          </div>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Physics-informed digital twin simulation with real-time remaining life forecasting
+          </p>
         </div>
 
-        {/* Playback Controls */}
+        {/* Action Buttons */}
         <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-extrabold transition-all duration-200 shadow-lg ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               isPlaying
-                ? 'bg-amber-500 text-black hover:bg-amber-400 shadow-amber-500/20'
-                : 'bg-cyan-400 text-black hover:bg-cyan-300 shadow-cyan-500/30'
+                ? 'bg-amber-500 text-black hover:bg-amber-400'
+                : 'bg-white text-slate-900 hover:bg-slate-200'
             }`}
           >
-            {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
-            <span>{isPlaying ? 'PAUSE CYCLE' : 'RUN CONTINUOUS SIMULATION'}</span>
+            {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+            <span>{isPlaying ? 'Pause' : 'Simulate'}</span>
           </button>
 
           <button
             onClick={() => setCycleIndex(prev => Math.min(168, prev + 1))}
-            className="flex items-center gap-1 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 text-xs font-mono border border-slate-700 transition-all"
-            title="Step +1 Cycle"
+            className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors"
           >
-            <span>+1 Step</span>
+            +1 Cycle
           </button>
 
           <button
             onClick={() => setCycleIndex(prev => Math.min(168, prev + 10))}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-cyan-300 text-xs font-mono border border-slate-700 transition-all"
-            title="Fast Forward +10 Cycles"
+            className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors"
           >
-            <FastForward className="w-3.5 h-3.5 text-cyan-400" />
-            <span>+10 Cycles</span>
+            +10 Cycles
           </button>
 
           <button
@@ -193,182 +175,146 @@ export default function DigitalTwinCockpit() {
               setSocPct(90);
               setIsPlaying(false);
             }}
-            className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700 transition-all"
-            title="Reset to Fresh Cell (Cycle 1)"
+            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 transition-colors"
+            title="Reset"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
 
           <button
             onClick={() => setIsCharging(!isCharging)}
-            className={`px-3 py-2 rounded-xl text-xs font-mono font-bold border transition-all ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
               isCharging
-                ? 'bg-cyan-950/90 border-cyan-500/60 text-cyan-300 shadow-[0_0_12px_rgba(0,240,255,0.2)]'
-                : 'bg-amber-950/90 border-amber-500/60 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                ? 'bg-blue-950/60 border-blue-800 text-blue-300'
+                : 'bg-slate-800 border-slate-700 text-slate-300'
             }`}
           >
-            {isCharging ? '⚡ FAST CHARGING (CC-CV)' : '🔋 LOAD DISCHARGING'}
+            {isCharging ? 'Charging (CC-CV)' : 'Discharging'}
           </button>
         </div>
       </div>
 
-      {/* Main Grid: Hologram + Master Prognostics HUD */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Main Grid: CAD Schematic + Master RUL KPI */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
-        {/* Left 5 Cols: Hologram Component */}
-        <div className="lg:col-span-5 flex flex-col">
+        {/* Left 5 Cols: Minimalist Battery Schematic */}
+        <div className="lg:col-span-5">
           <BatteryCellHologram state={{ ...cellState, is_charging: isCharging }} />
         </div>
 
-        {/* Right 7 Cols: Master RUL Prognostics & Telemetry Gauges */}
+        {/* Right 7 Cols: Master RUL Card & Key Metrics */}
         <div className="lg:col-span-7 flex flex-col justify-between space-y-4">
           
-          {/* Top Master RUL KPI Card */}
-          <div className="glass-panel-glow rounded-2xl p-5 border border-cyan-500/40 relative overflow-hidden bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-cyan-950/30">
+          {/* Master RUL Card */}
+          <div className="card-clean p-5 flex flex-col justify-between">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
               <div>
-                <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-400 flex items-center gap-1.5 font-bold">
-                  <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-                  Remaining Useful Life (RUL) Prognosis
+                <span className="text-xs text-slate-400 font-medium">
+                  Remaining Useful Life (RUL)
                 </span>
-                <div className="flex items-baseline gap-3 mt-2">
-                  <span className="text-4xl sm:text-5xl font-extrabold font-mono text-white tracking-tight text-glow-cyan">
+                <div className="flex items-baseline gap-2 mt-1">
+                  <span className="text-4xl sm:text-5xl font-bold font-mono text-white tracking-tight">
                     {cellState.predicted_rul_cycles.toFixed(0)}
                   </span>
-                  <span className="text-sm font-mono text-slate-300 font-semibold">
-                    CYCLES REMAINING
+                  <span className="text-sm font-medium text-slate-400">
+                    cycles remaining
                   </span>
                 </div>
               </div>
 
-              {/* 95% Confidence Interval Pill */}
-              <div className="bg-slate-950/90 p-3 rounded-xl border border-slate-800 shadow-inner text-left sm:text-right">
-                <span className="text-[10px] font-mono text-slate-400 block font-semibold">95% CONFIDENCE ENVELOPE</span>
-                <span className="text-sm font-mono font-extrabold text-cyan-300 block mt-0.5">
+              <div className="bg-[#121824] p-3 rounded-lg border border-[#1e2738] text-left sm:text-right">
+                <span className="text-[10px] text-slate-400 block font-medium">95% Confidence Bounds</span>
+                <span className="text-xs font-mono font-semibold text-slate-200 block mt-0.5">
                   [{cellState.confidence_interval_95.lower} – {cellState.confidence_interval_95.upper}] cycles
                 </span>
-                <span className="text-[9px] font-mono text-slate-500 block mt-0.5">
-                  Uncertainty σ = ±{cellState.confidence_interval_95.uncertainty_std} cycles
+                <span className="text-[10px] text-slate-500 block mt-0.5">
+                  Uncertainty ±{cellState.confidence_interval_95.uncertainty_std} cycles
                 </span>
               </div>
             </div>
 
-            {/* Capacity Degradation Trajectory Bar */}
-            <div className="mt-4 pt-3.5 border-t border-slate-800/90">
-              <div className="flex justify-between text-xs font-mono text-slate-300 mb-1.5 font-semibold">
-                <span>Measured Capacity: <strong className="text-cyan-300">{cellState.discharge_capacity_ah.toFixed(4)} Ah</strong></span>
-                <span>EOL Threshold: <strong className="text-rose-400">1.400 Ah (70% SOH)</strong></span>
+            {/* Capacity Progress Bar */}
+            <div className="mt-4 pt-3 border-t border-[#1b222d]">
+              <div className="flex justify-between text-xs text-slate-400 mb-1.5">
+                <span>Capacity: <strong className="text-white font-mono">{cellState.discharge_capacity_ah.toFixed(3)} Ah</strong></span>
+                <span>EOL Limit: <strong className="text-slate-300 font-mono">1.40 Ah (70% SOH)</strong></span>
               </div>
-              <div className="w-full bg-slate-950 h-3 rounded-full overflow-hidden p-0.5 border border-slate-800 shadow-inner">
+              <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
                 <div 
-                  className={`h-full rounded-full transition-all duration-700 ${
-                    cellState.soh_pct >= 85
-                      ? 'bg-gradient-to-r from-emerald-500 via-cyan-400 to-cyan-300'
-                      : cellState.soh_pct >= 75
-                      ? 'bg-gradient-to-r from-cyan-400 via-amber-400 to-amber-300'
-                      : 'bg-gradient-to-r from-amber-400 via-rose-500 to-rose-600'
+                  className={`h-full rounded-full transition-all duration-500 ${
+                    cellState.soh_pct >= 80 ? 'bg-blue-500' : 'bg-amber-500'
                   }`}
                   style={{ width: `${Math.max(0, Math.min(100, ((cellState.discharge_capacity_ah - 1.4) / (2.0 - 1.4)) * 100))}%` }}
                 />
               </div>
-              <div className="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
-                <span>Fresh (2.0 Ah)</span>
-                <span>Usable Operating Window</span>
-                <span>Decommission Knee</span>
-              </div>
             </div>
           </div>
 
-          {/* 3 Physical Diagnostic Metric Cards */}
+          {/* 3 Secondary Metric Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            
-            {/* Terminal Voltage */}
-            <div className="glass-panel rounded-xl p-3.5 border border-slate-800 flex flex-col justify-between shadow-inner">
-              <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-                <span>TERMINAL VOLTAGE</span>
-                <Zap className="w-3.5 h-3.5 text-cyan-400" />
-              </div>
-              <div className="my-1">
-                <span className="text-2xl font-bold font-mono text-white">
+            <div className="card-clean p-3.5">
+              <span className="text-[10px] text-slate-400 block uppercase font-medium">Terminal Voltage</span>
+              <div className="my-0.5">
+                <span className="text-xl font-bold font-mono text-white">
                   {cellState.terminal_voltage_v.toFixed(3)}
                 </span>
-                <span className="text-xs font-mono text-slate-400 ml-1">V</span>
+                <span className="text-xs text-slate-400 ml-1">V</span>
               </div>
-              <span className="text-[10px] font-mono text-slate-500">
+              <span className="text-[10px] text-slate-500 font-mono">
                 OCV: {cellState.open_circuit_voltage_v.toFixed(3)} V
               </span>
             </div>
 
-            {/* Operating Temp */}
-            <div className="glass-panel rounded-xl p-3.5 border border-slate-800 flex flex-col justify-between shadow-inner">
-              <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-                <span>CELL TEMPERATURE</span>
-                <Thermometer className="w-3.5 h-3.5 text-amber-400" />
-              </div>
-              <div className="my-1">
-                <span className="text-2xl font-bold font-mono text-white">
+            <div className="card-clean p-3.5">
+              <span className="text-[10px] text-slate-400 block uppercase font-medium">Cell Temperature</span>
+              <div className="my-0.5">
+                <span className="text-xl font-bold font-mono text-white">
                   {cellState.cell_temperature_c.toFixed(1)}
                 </span>
-                <span className="text-xs font-mono text-slate-400 ml-1">°C</span>
+                <span className="text-xs text-slate-400 ml-1">°C</span>
               </div>
-              <span className="text-[10px] font-mono text-slate-500">
-                Chamber: {cellState.ambient_temperature_c}°C
+              <span className="text-[10px] text-slate-500 font-mono">
+                Ambient: {cellState.ambient_temperature_c}°C
               </span>
             </div>
 
-            {/* Internal Resistance Re + Rct */}
-            <div className="glass-panel rounded-xl p-3.5 border border-slate-800 flex flex-col justify-between shadow-inner">
-              <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-                <span>IMPEDANCE (Re/Rct)</span>
-                <Gauge className="w-3.5 h-3.5 text-purple-400" />
-              </div>
-              <div className="my-1">
-                <span className="text-2xl font-bold font-mono text-purple-300">
+            <div className="card-clean p-3.5">
+              <span className="text-[10px] text-slate-400 block uppercase font-medium">Impedance (Re + Rct)</span>
+              <div className="my-0.5">
+                <span className="text-xl font-bold font-mono text-white">
                   {(cellState.internal_resistance_total_ohm * 1000).toFixed(1)}
                 </span>
-                <span className="text-xs font-mono text-slate-400 ml-1">mΩ</span>
+                <span className="text-xs text-slate-400 ml-1">mΩ</span>
               </div>
-              <span className="text-[10px] font-mono text-slate-500 truncate">
-                Re: {(cellState.electrolyte_resistance_re_ohm * 1000).toFixed(0)} | Rct: {(cellState.charge_transfer_resistance_rct_ohm * 1000).toFixed(0)}mΩ
+              <span className="text-[10px] text-slate-500 font-mono truncate block">
+                Re: {(cellState.electrolyte_resistance_re_ohm * 1000).toFixed(0)}mΩ • Rct: {(cellState.charge_transfer_resistance_rct_ohm * 1000).toFixed(0)}mΩ
               </span>
             </div>
-
           </div>
 
-          {/* Degradation Mechanisms Progress Breakdown */}
-          <div className="glass-panel rounded-xl p-4 border border-slate-800 shadow-inner">
-            <h4 className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider mb-2.5 flex items-center justify-between">
-              <span>Electrochemical Degradation Contribution</span>
-              <span className="text-[10px] text-slate-500">Physics Decomposition</span>
+          {/* Degradation Breakdown */}
+          <div className="card-clean p-4">
+            <h4 className="text-xs font-semibold text-slate-300 mb-2.5">
+              Electrochemical Degradation Contribution
             </h4>
-            <div className="space-y-2.5 text-xs font-mono">
+            <div className="space-y-2 text-xs">
               <div>
-                <div className="flex justify-between text-slate-300 mb-1">
+                <div className="flex justify-between text-slate-400 mb-1">
                   <span>Solid Electrolyte Interphase (SEI Growth)</span>
-                  <span className="text-amber-400 font-bold">{cellState.degradation_mechanisms.sei_layer_growth_pct}%</span>
+                  <span className="text-slate-200 font-mono font-medium">{cellState.degradation_mechanisms.sei_layer_growth_pct}%</span>
                 </div>
-                <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-amber-400 h-full rounded-full shadow-[0_0_8px_#F59E0B]" style={{ width: `${cellState.degradation_mechanisms.sei_layer_growth_pct}%` }} />
+                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-blue-500 h-full rounded-full" style={{ width: `${cellState.degradation_mechanisms.sei_layer_growth_pct}%` }} />
                 </div>
               </div>
 
               <div>
-                <div className="flex justify-between text-slate-300 mb-1">
+                <div className="flex justify-between text-slate-400 mb-1">
                   <span>Loss of Active Material (Cathode LAM)</span>
-                  <span className="text-cyan-400 font-bold">{cellState.degradation_mechanisms.active_material_loss_pct}%</span>
+                  <span className="text-slate-200 font-mono font-medium">{cellState.degradation_mechanisms.active_material_loss_pct}%</span>
                 </div>
-                <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-cyan-400 h-full rounded-full shadow-[0_0_8px_#00F0FF]" style={{ width: `${cellState.degradation_mechanisms.active_material_loss_pct}%` }} />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between text-slate-300 mb-1">
-                  <span>Lithium Plating & Non-linear Knee Stress</span>
-                  <span className="text-rose-400 font-bold">{cellState.degradation_mechanisms.plating_knee_stress_pct}%</span>
-                </div>
-                <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-rose-400 h-full rounded-full shadow-[0_0_8px_#EF4444]" style={{ width: `${cellState.degradation_mechanisms.plating_knee_stress_pct}%` }} />
+                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-slate-400 h-full rounded-full" style={{ width: `${cellState.degradation_mechanisms.active_material_loss_pct}%` }} />
                 </div>
               </div>
             </div>
@@ -378,21 +324,19 @@ export default function DigitalTwinCockpit() {
 
       </div>
 
-      {/* Environmental Chamber Sliders + Live Trend Waves */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Sliders & Telemetry Chart */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
         {/* Sliders (4 Cols) */}
-        <div className="lg:col-span-4 glass-panel rounded-2xl p-5 border border-slate-800 space-y-4">
-          <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-cyan-400" />
-            Virtual Chamber Controls
+        <div className="lg:col-span-4 card-clean p-5 space-y-4">
+          <h3 className="text-xs font-semibold text-white tracking-wide">
+            Test Chamber Controls
           </h3>
 
-          {/* Cycle Index Slider */}
           <div>
-            <div className="flex justify-between text-xs font-mono mb-1.5">
-              <span className="text-slate-400">Aging Cycle Count:</span>
-              <span className="text-cyan-300 font-bold">{cycleIndex}</span>
+            <div className="flex justify-between text-xs mb-1.5">
+              <span className="text-slate-400">Aging Cycle:</span>
+              <span className="text-white font-mono font-medium">{cycleIndex}</span>
             </div>
             <input
               type="range"
@@ -400,15 +344,14 @@ export default function DigitalTwinCockpit() {
               max="168"
               value={cycleIndex}
               onChange={(e) => setCycleIndex(parseInt(e.target.value))}
-              className="w-full h-2 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-cyan-400 border border-slate-800"
+              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
             />
           </div>
 
-          {/* State of Charge (SOC) */}
           <div>
-            <div className="flex justify-between text-xs font-mono mb-1.5">
+            <div className="flex justify-between text-xs mb-1.5">
               <span className="text-slate-400">State of Charge (SOC):</span>
-              <span className="text-amber-300 font-bold">{socPct}%</span>
+              <span className="text-white font-mono font-medium">{socPct}%</span>
             </div>
             <input
               type="range"
@@ -416,15 +359,14 @@ export default function DigitalTwinCockpit() {
               max="100"
               value={socPct}
               onChange={(e) => setSocPct(parseInt(e.target.value))}
-              className="w-full h-2 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-amber-400 border border-slate-800"
+              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
             />
           </div>
 
-          {/* Ambient Temperature */}
           <div>
-            <div className="flex justify-between text-xs font-mono mb-1.5">
-              <span className="text-slate-400">Chamber Temp:</span>
-              <span className="text-white font-bold">{ambientTemp}°C</span>
+            <div className="flex justify-between text-xs mb-1.5">
+              <span className="text-slate-400">Ambient Temp:</span>
+              <span className="text-white font-mono font-medium">{ambientTemp}°C</span>
             </div>
             <input
               type="range"
@@ -432,15 +374,14 @@ export default function DigitalTwinCockpit() {
               max="50"
               value={ambientTemp}
               onChange={(e) => setAmbientTemp(parseInt(e.target.value))}
-              className="w-full h-2 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-rose-400 border border-slate-800"
+              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
             />
           </div>
 
-          {/* C-Rate Stress */}
           <div>
-            <div className="flex justify-between text-xs font-mono mb-1.5">
-              <span className="text-slate-400">Charge/Discharge C-Rate:</span>
-              <span className="text-purple-300 font-bold">{cRate.toFixed(1)} C</span>
+            <div className="flex justify-between text-xs mb-1.5">
+              <span className="text-slate-400">Load C-Rate:</span>
+              <span className="text-white font-mono font-medium">{cRate.toFixed(1)} C</span>
             </div>
             <input
               type="range"
@@ -449,49 +390,48 @@ export default function DigitalTwinCockpit() {
               step="0.1"
               value={cRate}
               onChange={(e) => setCRate(parseFloat(e.target.value))}
-              className="w-full h-2 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-purple-400 border border-slate-800"
+              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
             />
           </div>
         </div>
 
-        {/* Live Rolling History Chart (8 Cols) */}
-        <div className="lg:col-span-8 glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between shadow-xl">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+        {/* Rolling Waveform Chart (8 Cols) */}
+        <div className="lg:col-span-8 card-clean p-5 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-3">
             <div>
-              <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                <Activity className="w-4 h-4 text-emerald-400" />
-                Live Digital Twin Waveforms (Capacity Fade & Thermal Rise)
+              <h3 className="text-xs font-semibold text-white tracking-wide">
+                Capacity Fade & Temperature History
               </h3>
-              <p className="text-[11px] text-slate-400 font-mono">Rolling real-time history over simulated cycle steps</p>
+              <p className="text-[11px] text-slate-400">Telemetry over simulated cycle steps</p>
             </div>
-            <div className="flex items-center gap-3 text-[11px] font-mono">
-              <span className="flex items-center gap-1 text-cyan-400">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#00F0FF] inline-block"></span> Capacity (Ah)
+            <div className="flex items-center gap-3 text-[11px]">
+              <span className="flex items-center gap-1.5 text-blue-400">
+                <span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> Capacity (Ah)
               </span>
-              <span className="flex items-center gap-1 text-amber-400">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_#F59E0B] inline-block"></span> Temp (°C)
+              <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="w-2 h-2 rounded-full bg-slate-400 inline-block"></span> Temp (°C)
               </span>
             </div>
           </div>
 
-          <div className="h-[220px] w-full">
+          <div className="h-[210px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={history} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="capGradCockpit" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#00F0FF" stopOpacity={0.45}/>
-                    <stop offset="95%" stopColor="#00F0FF" stopOpacity={0}/>
+                  <linearGradient id="cleanCapGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.25}/>
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
-                <XAxis dataKey="tick" stroke="#64748B" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
-                <YAxis yAxisId="left" domain={[1.2, 2.05]} stroke="#00F0FF" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
-                <YAxis yAxisId="right" orientation="right" domain={[20, 50]} stroke="#F59E0B" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#1b222d" vertical={false} />
+                <XAxis dataKey="tick" stroke="#64748b" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
+                <YAxis yAxisId="left" domain={[1.2, 2.05]} stroke="#64748b" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
+                <YAxis yAxisId="right" orientation="right" domain={[20, 50]} stroke="#64748b" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#0A101D', borderColor: '#1E293B', borderRadius: '12px', fontSize: '11px', fontFamily: 'monospace', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}
+                  contentStyle={{ backgroundColor: '#0d1117', borderColor: '#1b222d', borderRadius: '8px', fontSize: '11px' }}
                 />
-                <Area yAxisId="left" type="monotone" dataKey="capacity" stroke="#00F0FF" strokeWidth={2.5} fillOpacity={1} fill="url(#capGradCockpit)" name="Capacity (Ah)" />
-                <Line yAxisId="right" type="monotone" dataKey="temp" stroke="#F59E0B" strokeWidth={2} dot={false} name="Temp (°C)" />
+                <Area yAxisId="left" type="monotone" dataKey="capacity" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#cleanCapGrad)" name="Capacity (Ah)" />
+                <Line yAxisId="right" type="monotone" dataKey="temp" stroke="#94a3b8" strokeWidth={1.5} dot={false} name="Temp (°C)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

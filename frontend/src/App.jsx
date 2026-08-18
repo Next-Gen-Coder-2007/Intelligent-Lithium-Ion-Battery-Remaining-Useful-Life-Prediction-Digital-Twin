@@ -8,7 +8,6 @@ import WhatIfSandbox from './components/WhatIfSandbox';
 import BatchAnalyzer from './components/BatchAnalyzer';
 import ResumeShowcase from './components/ResumeShowcase';
 import { fetchHealth } from './services/api';
-import { Zap, Cpu, Github, ExternalLink } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('cockpit');
@@ -33,16 +32,16 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#080C14] text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen bg-[#090b10] text-slate-200 flex flex-col font-sans">
       
-      {/* Top Fixed / Sticky Navigation */}
+      {/* Top Fixed Header */}
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         systemHealth={systemHealth} 
       />
 
-      {/* Main Dynamic View Area */}
+      {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6">
         {activeTab === 'cockpit' && <DigitalTwinCockpit />}
         {activeTab === 'arena' && <ModelArena />}
@@ -53,31 +52,26 @@ export default function App() {
         {activeTab === 'architecture' && <ResumeShowcase />}
       </main>
 
-      {/* Footer */}
-      <footer className="glass-panel border-t border-slate-800/80 py-6 px-4 lg:px-8 mt-12 text-xs font-mono text-slate-400">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          
-          <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-cyan-400" />
-            <span className="text-white font-bold">Lithium-Ion Battery Digital Twin Platform</span>
-            <span className="text-slate-600">|</span>
-            <span>2026 Machine Learning & Battery Health Prognostics</span>
+      {/* Minimalist Footer */}
+      <footer className="border-t border-[#1b222d] py-5 px-4 lg:px-8 mt-12 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div>
+            <span className="text-slate-400 font-medium">Lithium-Ion Battery Digital Twin</span>
+            <span className="mx-2">•</span>
+            <span>RUL Prognostics & Health Monitoring</span>
           </div>
 
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">Python</span>
-            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">Scikit-learn</span>
-            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-400">XGBoost</span>
-            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-400">LightGBM</span>
-            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300">Django 5</span>
-            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300">React + Vite</span>
-            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-purple-300">Tailwind CSS</span>
+          <div className="flex items-center gap-2 font-mono text-[11px] text-slate-500">
+            <span>Python 3.11</span>
+            <span>•</span>
+            <span>Django 5</span>
+            <span>•</span>
+            <span>React</span>
+            <span>•</span>
+            <span>XGBoost</span>
+            <span>•</span>
+            <span>LightGBM</span>
           </div>
-
-          <div className="text-slate-500 text-[11px]">
-            <span>NASA Ames Prognostics Center of Excellence (PCoE) Dataset</span>
-          </div>
-
         </div>
       </footer>
 

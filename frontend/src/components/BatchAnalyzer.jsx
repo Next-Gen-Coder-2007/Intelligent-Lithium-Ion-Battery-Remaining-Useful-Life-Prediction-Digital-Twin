@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  FileText, 
-  Upload, 
-  Download, 
-  AlertTriangle, 
-  CheckCircle2, 
-  FileSpreadsheet, 
-  Search, 
-  RefreshCw,
-  Sparkles,
-  ShieldCheck
-} from 'lucide-react';
-
+import { FileText, Upload, Download, Search, Sparkles } from 'lucide-react';
 import { uploadBatchCSV } from '../services/api';
 
 export default function BatchAnalyzer() {
@@ -90,7 +78,7 @@ export default function BatchAnalyzer() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `battery_rul_predictions_report_${Date.now()}.csv`;
+    a.download = `battery_rul_report_${Date.now()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -102,184 +90,140 @@ export default function BatchAnalyzer() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel rounded-2xl p-5 border border-slate-800 shadow-xl">
-        <div className="flex items-center gap-3.5">
-          <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
-            <FileSpreadsheet className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-base font-extrabold text-white tracking-wide font-mono">
-                BATCH CSV TELEMETRY INSPECTOR & FLEET PROGNOSTICS
-              </h2>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold border border-cyan-500/30">
-                High-Throughput
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 font-mono">
-              Upload multi-cycle battery telemetry CSV files for automated health grading and remaining cycle prediction
-            </p>
-          </div>
+      <div className="card-clean p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-sm font-semibold text-white tracking-tight">
+            Batch CSV Telemetry Diagnostics
+          </h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Process fleet telemetry CSV files for automated RUL predictions
+          </p>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setBatchResult(sampleBatch)}
-            className="px-3.5 py-2 rounded-xl text-xs font-mono text-slate-300 bg-slate-900 border border-slate-800 hover:bg-slate-800 flex items-center gap-2 transition-all shadow-md"
+            className="px-3 py-1.5 rounded-lg text-xs text-slate-300 bg-slate-800 hover:bg-slate-700 transition-colors"
           >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Load Sample NASA CSV</span>
+            Load Sample CSV
           </button>
 
           <button
             onClick={downloadCSVReport}
-            className="px-4 py-2 rounded-xl text-xs font-mono font-bold text-black bg-cyan-400 hover:bg-cyan-300 flex items-center gap-2 shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all"
+            className="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-900 bg-white hover:bg-slate-200 flex items-center gap-1.5 transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>Export Enriched CSV</span>
+            <span>Export CSV</span>
           </button>
         </div>
       </div>
 
-      {/* Drag and Drop Zone */}
-      <div className="glass-panel rounded-2xl p-7 border-2 border-dashed border-slate-700/80 hover:border-cyan-500/60 transition-all flex flex-col items-center justify-center text-center relative cursor-pointer group shadow-xl">
+      {/* Minimal Dropzone */}
+      <div className="card-clean p-6 border-dashed border-slate-700 flex flex-col items-center justify-center text-center relative cursor-pointer hover:border-slate-500 transition-colors">
         <input 
           type="file" 
           accept=".csv" 
           onChange={handleFileUpload} 
           className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
         />
-        <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(0,240,255,0.2)]">
-          <Upload className="w-7 h-7" />
-        </div>
-        <h3 className="text-sm font-mono font-bold text-white mt-3.5">
-          {file ? `Selected: ${file.name}` : 'Drop battery telemetry CSV file here, or browse files'}
+        <Upload className="w-6 h-6 text-slate-400" />
+        <h3 className="text-xs font-medium text-white mt-2">
+          {file ? file.name : 'Select or drop telemetry CSV'}
         </h3>
-        <p className="text-xs text-slate-400 font-mono mt-1">
-          Supports NASA PCoE physical schema or operational 7-feature scaled datasets
+        <p className="text-[11px] text-slate-400 mt-0.5">
+          Accepts NASA 17-feature or operational 7-feature scaled format
         </p>
       </div>
 
-      {/* Summary KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <div className="glass-panel rounded-xl p-4 border border-slate-800 shadow-inner">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block font-semibold">CYCLES PROCESSED</span>
-          <span className="text-3xl font-bold font-mono text-white mt-1 block">
+      {/* 4 Summary Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="card-clean p-3.5">
+          <span className="text-[10px] text-slate-400 uppercase block">Rows Processed</span>
+          <span className="text-xl font-bold font-mono text-white mt-0.5 block">
             {currentData.total_rows_processed}
           </span>
-          <span className="text-xs text-slate-400 font-mono mt-1 block">
-            Format: {currentData.dataset_detected.toUpperCase()}
+        </div>
+
+        <div className="card-clean p-3.5">
+          <span className="text-[10px] text-slate-400 uppercase block">Fleet Average RUL</span>
+          <span className="text-xl font-bold font-mono text-white mt-0.5 block">
+            {currentData.summary.average_predicted_rul_cycles} <span className="text-xs font-normal text-slate-400">cycles</span>
           </span>
         </div>
 
-        <div className="glass-panel rounded-xl p-4 border border-slate-800 shadow-inner">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block font-semibold">FLEET AVERAGE RUL</span>
-          <span className="text-3xl font-bold font-mono text-cyan-400 mt-1 block">
-            {currentData.summary.average_predicted_rul_cycles} <span className="text-xs text-slate-400 font-normal">cycles</span>
-          </span>
-          <span className="text-xs text-slate-400 font-mono mt-1 block">
-            Min RUL: {currentData.summary.minimum_predicted_rul_cycles} cycles
-          </span>
-        </div>
-
-        <div className="glass-panel rounded-xl p-4 border border-slate-800 shadow-inner">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block font-semibold">AVERAGE FLEET SOH</span>
-          <span className="text-3xl font-bold font-mono text-emerald-400 mt-1 block">
+        <div className="card-clean p-3.5">
+          <span className="text-[10px] text-slate-400 uppercase block">Average SOH</span>
+          <span className="text-xl font-bold font-mono text-white mt-0.5 block">
             {currentData.summary.average_soh_pct}%
           </span>
-          <span className="text-xs text-slate-400 font-mono mt-1 block">
-            Nominal 2.0 Ah capacity base
-          </span>
         </div>
 
-        <div className="glass-panel rounded-xl p-4 border border-slate-800 shadow-inner">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block font-semibold">ANOMALIES FLAGGED</span>
-          <span className={`text-3xl font-bold font-mono mt-1 block ${
-            currentData.summary.total_anomalies_detected > 0 ? 'text-amber-400 text-glow-amber' : 'text-emerald-400'
-          }`}>
+        <div className="card-clean p-3.5">
+          <span className="text-[10px] text-slate-400 uppercase block">Anomalies Detected</span>
+          <span className="text-xl font-bold font-mono text-white mt-0.5 block">
             {currentData.summary.total_anomalies_detected}
           </span>
-          <span className="text-xs text-slate-400 font-mono mt-1 block">
-            Thermal / Voltage Outliers
-          </span>
         </div>
-
       </div>
 
-      {/* Batch Predictions Table */}
-      <div className="glass-panel rounded-2xl p-5 border border-slate-800 overflow-x-auto shadow-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-          <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-            <FileText className="w-4 h-4 text-cyan-400" />
-            Batch Telemetry Predictions ({filteredRows.length} Rows)
+      {/* Predictions Table */}
+      <div className="card-clean p-4 overflow-x-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <h3 className="text-xs font-semibold text-white">
+            Telemetry Predictions ({filteredRows.length} Cycles)
           </h3>
 
-          {/* Search Filter */}
-          <div className="relative w-full sm:w-64">
-            <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
+          <div className="relative w-full sm:w-56">
+            <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5" />
             <input
               type="text"
-              placeholder="Filter cycle or status..."
+              placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500/50"
+              className="w-full bg-[#121824] border border-[#1e2738] rounded-md pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-slate-600"
             />
           </div>
         </div>
 
-        <table className="w-full text-left text-xs font-mono border-collapse">
+        <table className="w-full text-left text-xs border-collapse font-mono">
           <thead>
-            <tr className="border-b border-slate-800 text-slate-400">
-              <th className="pb-3 pr-3 font-semibold">ROW</th>
-              <th className="pb-3 px-3 font-semibold">CYCLE INDEX</th>
-              <th className="pb-3 px-3 font-semibold text-right">CAPACITY (AH)</th>
-              <th className="pb-3 px-3 font-semibold text-right">SOH (%)</th>
-              <th className="pb-3 px-3 font-semibold text-right">PREDICTED RUL</th>
-              <th className="pb-3 px-3 font-semibold text-center">HEALTH GRADE</th>
-              <th className="pb-3 pl-3 font-semibold text-center">ANOMALY STATUS</th>
+            <tr className="border-b border-[#1b222d] text-slate-400">
+              <th className="pb-2.5">Row</th>
+              <th className="pb-2.5 px-3">Cycle</th>
+              <th className="pb-2.5 px-3 text-right">Capacity</th>
+              <th className="pb-2.5 px-3 text-right">SOH</th>
+              <th className="pb-2.5 px-3 text-right">Predicted RUL</th>
+              <th className="pb-2.5 px-3 text-center">Health Status</th>
+              <th className="pb-2.5 pl-3 text-center">Anomaly</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60 text-slate-300">
+          <tbody className="divide-y divide-[#1b222d] text-slate-300">
             {filteredRows.map((row) => (
-              <tr key={row.row_id} className="hover:bg-slate-800/40 transition-colors">
-                <td className="py-3 pr-3 text-slate-500">#{row.row_id}</td>
-                <td className="py-3 px-3 font-bold text-white">Cycle {row.cycle_index}</td>
-                <td className="py-3 px-3 text-right text-cyan-300 font-bold">
+              <tr key={row.row_id} className="hover:bg-[#121824]/50 transition-colors">
+                <td className="py-2.5 text-slate-500">#{row.row_id}</td>
+                <td className="py-2.5 px-3 font-semibold text-white">Cycle {row.cycle_index}</td>
+                <td className="py-2.5 px-3 text-right text-slate-200">
                   {row.capacity_ah ? `${row.capacity_ah.toFixed(3)} Ah` : '—'}
                 </td>
-                <td className="py-3 px-3 text-right text-emerald-400 font-bold">
+                <td className="py-2.5 px-3 text-right text-slate-200">
                   {row.soh_pct.toFixed(1)}%
                 </td>
-                <td className="py-3 px-3 text-right font-bold text-white text-sm">
-                  {row.predicted_rul_cycles.toFixed(0)} <span className="text-slate-500 font-normal text-xs">cycles</span>
+                <td className="py-2.5 px-3 text-right font-semibold text-white">
+                  {row.predicted_rul_cycles.toFixed(0)} cycles
                 </td>
-                <td className="py-3 px-3 text-center">
-                  <span className={`inline-block px-2.5 py-1 rounded-md text-[10px] font-bold ${
-                    row.health_status.includes('Optimal')
-                      ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-500/40'
-                      : row.health_status.includes('Good')
-                      ? 'bg-cyan-950/80 text-cyan-400 border border-cyan-500/40'
-                      : row.health_status.includes('Warning')
-                      ? 'bg-amber-950/80 text-amber-400 border border-amber-500/40'
-                      : 'bg-rose-950/80 text-rose-400 border border-rose-500/40'
-                  }`}>
+                <td className="py-2.5 px-3 text-center">
+                  <span className="text-[10px] text-slate-300 bg-slate-800 px-2 py-0.5 rounded">
                     {row.health_status}
                   </span>
                 </td>
-                <td className="py-3 pl-3 text-center">
+                <td className="py-2.5 pl-3 text-center">
                   {row.anomaly_flag ? (
-                    <span className="inline-flex items-center gap-1.5 text-[10px] text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded-md border border-amber-500/40 font-bold shadow-[0_0_8px_rgba(245,158,11,0.2)]">
-                      <AlertTriangle className="w-3.5 h-3.5" /> Flagged
-                    </span>
+                    <span className="text-[10px] text-amber-400 font-semibold">Flagged</span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-[10px] text-slate-500">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Nominal
-                    </span>
+                    <span className="text-[10px] text-slate-500">Normal</span>
                   )}
                 </td>
               </tr>
