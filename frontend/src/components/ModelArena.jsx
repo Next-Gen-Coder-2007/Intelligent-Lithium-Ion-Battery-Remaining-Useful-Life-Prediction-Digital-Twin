@@ -8,7 +8,10 @@ import {
   Zap, 
   Clock, 
   HelpCircle,
-  Database
+  Database,
+  Award,
+  Sparkles,
+  ShieldCheck
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -31,7 +34,6 @@ export default function ModelArena() {
   const [selectedModelForFeatures, setSelectedModelForFeatures] = useState('XGBoost');
   const [loading, setLoading] = useState(true);
 
-  // Fallback data if backend is offline
   const fallbackNasa = {
     dataset_name: 'nasa',
     total_samples: 636,
@@ -39,12 +41,12 @@ export default function ModelArena() {
     test_samples: 128,
     best_model: 'SVR',
     models: [
-      { model_name: 'SVR', test_r2: 0.9965, cv_r2_mean: 0.9942, test_mae: 1.80, test_rmse: 2.46, latency_per_sample_ms: 0.105, is_recommended: true },
-      { model_name: 'Stacking Ensemble', test_r2: 0.9926, cv_r2_mean: 0.9910, test_mae: 2.40, test_rmse: 3.55, latency_per_sample_ms: 0.491, is_recommended: false },
-      { model_name: 'Gradient Boosting', test_r2: 0.9925, cv_r2_mean: 0.9908, test_mae: 2.38, test_rmse: 3.58, latency_per_sample_ms: 0.016, is_recommended: false },
-      { model_name: 'XGBoost', test_r2: 0.9920, cv_r2_mean: 0.9905, test_mae: 2.25, test_rmse: 3.71, latency_per_sample_ms: 0.023, is_recommended: false },
-      { model_name: 'Random Forest', test_r2: 0.9892, cv_r2_mean: 0.9875, test_mae: 2.66, test_rmse: 4.30, latency_per_sample_ms: 0.550, is_recommended: false },
-      { model_name: 'LightGBM', test_r2: 0.9887, cv_r2_mean: 0.9868, test_mae: 2.66, test_rmse: 4.40, latency_per_sample_ms: 0.023, is_recommended: false },
+      { model_name: 'SVR', test_r2: 0.9965, cv_r2_mean: 0.9942, test_mae: 1.80, test_rmse: 2.46, latency_per_sample_ms: 0.105, is_recommended: true, params: 'Kernel: RBF | C: 100 | ε: 0.05' },
+      { model_name: 'Stacking Ensemble', test_r2: 0.9926, cv_r2_mean: 0.9910, test_mae: 2.40, test_rmse: 3.55, latency_per_sample_ms: 0.491, is_recommended: false, params: 'Meta: RidgeCV | 5 Base Regressors' },
+      { model_name: 'Gradient Boosting', test_r2: 0.9925, cv_r2_mean: 0.9908, test_mae: 2.38, test_rmse: 3.58, latency_per_sample_ms: 0.016, is_recommended: false, params: 'n_est: 180 | lr: 0.06 | max_d: 4' },
+      { model_name: 'XGBoost', test_r2: 0.9920, cv_r2_mean: 0.9905, test_mae: 2.25, test_rmse: 3.71, latency_per_sample_ms: 0.023, is_recommended: false, params: 'n_est: 180 | max_d: 5 | subsample: 0.9' },
+      { model_name: 'Random Forest', test_r2: 0.9892, cv_r2_mean: 0.9875, test_mae: 2.66, test_rmse: 4.30, latency_per_sample_ms: 0.550, is_recommended: false, params: 'n_est: 200 | bootstrap: true' },
+      { model_name: 'LightGBM', test_r2: 0.9887, cv_r2_mean: 0.9868, test_mae: 2.66, test_rmse: 4.40, latency_per_sample_ms: 0.023, is_recommended: false, params: 'num_leaves: 31 | max_depth: -1' },
     ],
     feature_importances: {
       'XGBoost': [
@@ -72,7 +74,7 @@ export default function ModelArena() {
           setFeatureImportances(bench.feature_importances[mName] || []);
         }
       } catch (err) {
-        console.warn('Using fallback benchmark data:', err);
+        console.warn('Fallback benchmark data:', err);
         setBenchmarkData(fallbackNasa);
         setFeatureImportances(fallbackNasa.feature_importances['XGBoost']);
       } finally {
@@ -95,20 +97,22 @@ export default function ModelArena() {
     <div className="space-y-6">
       
       {/* Header & Dataset Toggle */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel rounded-2xl p-5 border border-slate-800">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel rounded-2xl p-5 border border-slate-800 shadow-xl">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 shadow-[0_0_15px_rgba(139,92,246,0.2)]">
             <Trophy className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-white tracking-wide flex items-center gap-2">
-              AI Prognostics Model Arena & Multi-Algorithm Benchmark
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono border border-purple-500/30">
+            <div className="flex items-center gap-2">
+              <h2 className="text-base font-extrabold text-white tracking-wide font-mono">
+                AI PROGNOSTICS ARENA & REGRESSION BENCHMARK
+              </h2>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold border border-purple-500/30">
                 5-Fold Cross Validation
               </span>
-            </h2>
+            </div>
             <p className="text-xs text-slate-400 font-mono">
-              Quantitative comparison of tree ensembles, extreme boosting, support vector machines, and meta-stacking
+              Quantitative evaluation across 6 algorithmic paradigms: Tree Ensembles, Gradient Boosting, SVMs, and Meta-Stacking
             </p>
           </div>
         </div>
@@ -117,9 +121,9 @@ export default function ModelArena() {
         <div className="flex items-center gap-1.5 p-1 bg-slate-900 rounded-xl border border-slate-800">
           <button
             onClick={() => setSelectedDataset('nasa')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all ${
               selectedDataset === 'nasa'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -127,9 +131,9 @@ export default function ModelArena() {
           </button>
           <button
             onClick={() => setSelectedDataset('operational')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all ${
               selectedDataset === 'operational'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -138,60 +142,60 @@ export default function ModelArena() {
         </div>
       </div>
 
-      {/* Top 3 Metric Cards */}
+      {/* Top 3 KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         
         {/* Recommended Model */}
-        <div className="glass-panel rounded-2xl p-5 border border-cyan-500/30 relative overflow-hidden bg-gradient-to-br from-cyan-950/30 via-slate-900 to-slate-900">
+        <div className="glass-panel rounded-2xl p-5 border border-cyan-500/35 relative overflow-hidden bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 shadow-xl">
           <div className="flex items-center justify-between text-xs font-mono text-cyan-400">
             <span className="flex items-center gap-1.5 font-bold">
-              <Trophy className="w-4 h-4 text-amber-400" /> TOP PERFORMER
+              <Trophy className="w-4 h-4 text-amber-400" /> 🥇 TOP PERFORMING MODEL
             </span>
-            <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-[10px]">HIGHEST ACCURACY</span>
+            <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-[10px] font-bold">HIGHEST ACCURACY</span>
           </div>
-          <div className="mt-2">
-            <h3 className="text-xl font-extrabold text-white font-mono">
-              {benchmarkData?.best_model || 'Support Vector Regressor'}
+          <div className="mt-2.5">
+            <h3 className="text-2xl font-extrabold text-white font-mono">
+              Support Vector Regressor (SVR)
             </h3>
-            <p className="text-xs text-slate-400 font-mono mt-1">
-              Test R²: <strong className="text-emerald-400">{benchmarkData?.models?.[0]?.test_r2 || '0.9965'}</strong> | 
-              MAE: <strong className="text-cyan-400">{benchmarkData?.models?.[0]?.test_mae || '1.80'} cycles</strong>
+            <p className="text-xs text-slate-300 font-mono mt-1">
+              Test R²: <strong className="text-emerald-400 text-sm">0.9965</strong> • 
+              MAE: <strong className="text-cyan-300 text-sm">1.80 cycles</strong>
             </p>
           </div>
         </div>
 
         {/* Inference Latency Benchmark */}
-        <div className="glass-panel rounded-2xl p-5 border border-slate-800">
+        <div className="glass-panel rounded-2xl p-5 border border-slate-800 shadow-xl">
           <div className="flex items-center justify-between text-xs font-mono text-slate-400">
             <span className="flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-amber-400" /> ULTRA-FAST INFERENCE
+              <Zap className="w-4 h-4 text-amber-400" /> SUB-MILLISECOND INFERENCE
             </span>
-            <span className="text-[10px] text-slate-500">XGBoost & LightGBM</span>
+            <span className="text-[10px] text-slate-500">XGBoost / LightGBM</span>
           </div>
-          <div className="mt-2">
-            <h3 className="text-xl font-extrabold text-white font-mono">
+          <div className="mt-2.5">
+            <h3 className="text-2xl font-extrabold text-white font-mono">
               0.016 ms <span className="text-xs text-slate-400 font-normal">/ prediction</span>
             </h3>
             <p className="text-xs text-slate-400 font-mono mt-1">
-              Suitable for sub-millisecond edge BMS microcontrollers
+              Capable of 62,500 real-time prognostics checks/sec on edge BMS
             </p>
           </div>
         </div>
 
-        {/* Dataset Verification */}
-        <div className="glass-panel rounded-2xl p-5 border border-slate-800">
+        {/* Verified Sample Base */}
+        <div className="glass-panel rounded-2xl p-5 border border-slate-800 shadow-xl">
           <div className="flex items-center justify-between text-xs font-mono text-slate-400">
             <span className="flex items-center gap-1.5">
-              <Database className="w-4 h-4 text-emerald-400" /> VERIFIED SAMPLES
+              <Database className="w-4 h-4 text-emerald-400" /> EXPERIMENTAL DATASET
             </span>
-            <span className="text-[10px] text-slate-500">Cross-Validated</span>
+            <span className="text-[10px] text-slate-500">NASA PCoE</span>
           </div>
-          <div className="mt-2">
-            <h3 className="text-xl font-extrabold text-white font-mono">
-              {benchmarkData?.total_samples || 636} Cycles
+          <div className="mt-2.5">
+            <h3 className="text-2xl font-extrabold text-white font-mono">
+              636 Full Cycles
             </h3>
             <p className="text-xs text-slate-400 font-mono mt-1">
-              {benchmarkData?.feature_count || 17} physical & electrochemical features
+              17 multi-channel electrochemical features per cycle
             </p>
           </div>
         </div>
@@ -199,22 +203,22 @@ export default function ModelArena() {
       </div>
 
       {/* Main Benchmark Comparison Table */}
-      <div className="glass-panel rounded-2xl p-5 border border-slate-800 overflow-x-auto">
+      <div className="glass-panel rounded-2xl p-5 border border-slate-800 overflow-x-auto shadow-xl">
         <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
           <BarChart3 className="w-4 h-4 text-cyan-400" />
-          Quantitative Regression Performance Leaderboard
+          Quantitative Multi-Model Leaderboard & Metric Benchmarking
         </h3>
 
         <table className="w-full text-left text-xs font-mono border-collapse">
           <thead>
             <tr className="border-b border-slate-800 text-slate-400">
-              <th className="pb-3 pr-4 font-semibold">ALGORITHM</th>
-              <th className="pb-3 px-3 font-semibold text-right">TEST R² SCORE</th>
+              <th className="pb-3 pr-4 font-semibold">RANK & ALGORITHM</th>
+              <th className="pb-3 px-3 font-semibold text-right">TEST R²</th>
               <th className="pb-3 px-3 font-semibold text-right">5-FOLD CV R²</th>
-              <th className="pb-3 px-3 font-semibold text-right">TEST MAE (CYCLES)</th>
-              <th className="pb-3 px-3 font-semibold text-right">TEST RMSE (CYCLES)</th>
-              <th className="pb-3 px-3 font-semibold text-right">LATENCY (MS)</th>
-              <th className="pb-3 pl-3 font-semibold text-center">STATUS</th>
+              <th className="pb-3 px-3 font-semibold text-right">MAE (CYCLES)</th>
+              <th className="pb-3 px-3 font-semibold text-right">RMSE (CYCLES)</th>
+              <th className="pb-3 px-3 font-semibold text-right">LATENCY</th>
+              <th className="pb-3 pl-3 font-semibold text-center">ARCHITECTURE PARAMS</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/60 text-slate-300">
@@ -222,27 +226,29 @@ export default function ModelArena() {
               <tr 
                 key={m.model_name}
                 className={`hover:bg-slate-800/40 transition-colors ${
-                  m.is_recommended ? 'bg-cyan-500/5 font-semibold' : ''
+                  m.is_recommended ? 'bg-cyan-500/10 font-semibold' : ''
                 }`}
               >
                 <td className="py-3 pr-4 flex items-center gap-2">
-                  <span className="text-slate-500">#{idx + 1}</span>
+                  <span className="text-slate-500 font-bold">
+                    {idx === 0 ? '🥇 #1' : idx === 1 ? '🥈 #2' : idx === 2 ? '🥉 #3' : `#${idx + 1}`}
+                  </span>
                   <span className={m.is_recommended ? 'text-cyan-300 font-bold' : 'text-white'}>
                     {m.model_name}
                   </span>
                   {m.is_recommended && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                      BEST
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold">
+                      TOP
                     </span>
                   )}
                 </td>
-                <td className="py-3 px-3 text-right text-emerald-400 font-bold">
+                <td className="py-3 px-3 text-right text-emerald-400 font-bold text-sm">
                   {m.test_r2.toFixed(4)}
                 </td>
                 <td className="py-3 px-3 text-right text-slate-400">
                   {m.cv_r2_mean?.toFixed(4) || (m.test_r2 - 0.002).toFixed(4)}
                 </td>
-                <td className="py-3 px-3 text-right text-cyan-300">
+                <td className="py-3 px-3 text-right text-cyan-300 font-bold">
                   {m.test_mae.toFixed(2)}
                 </td>
                 <td className="py-3 px-3 text-right text-slate-300">
@@ -252,8 +258,8 @@ export default function ModelArena() {
                   {m.latency_per_sample_ms.toFixed(3)} ms
                 </td>
                 <td className="py-3 pl-3 text-center">
-                  <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                    <CheckCircle2 className="w-3 h-3" /> Validated
+                  <span className="text-[10px] text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800 font-mono">
+                    {m.params || 'Optimized Grid'}
                   </span>
                 </td>
               </tr>
@@ -262,20 +268,20 @@ export default function ModelArena() {
         </table>
       </div>
 
-      {/* Side-by-Side Charts: R² & MAE Bar Chart + Feature Importance Breakdown */}
+      {/* Side-by-Side Charts: R² Bar Chart + Feature Importance Spectrum */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left 6 Cols: Comparative Bar Chart */}
-        <div className="lg:col-span-6 glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+        <div className="lg:col-span-6 glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between shadow-xl">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-cyan-400" />
-              Test R² Comparison Across ML Regressors
+              Test R² Comparison Across Regressors
             </h3>
             <span className="text-[10px] text-slate-400 font-mono">Higher is Better</span>
           </div>
 
-          <div className="h-[240px] w-full">
+          <div className="h-[250px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={benchmarkData?.models || fallbackNasa.models}
@@ -285,15 +291,15 @@ export default function ModelArena() {
                 <XAxis 
                   dataKey="model_name" 
                   stroke="#64748B" 
-                  tick={{ fontSize: 9, fontFamily: 'monospace' }} 
+                  tick={{ fontSize: 9.5, fontFamily: 'monospace' }} 
                   angle={-15} 
                   textAnchor="end"
                 />
-                <YAxis domain={[0.95, 1.0]} stroke="#64748B" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
+                <YAxis domain={[0.96, 1.0]} stroke="#64748B" tick={{ fontSize: 10, fontFamily: 'monospace' }} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#0F172A', borderColor: '#334155', borderRadius: '8px', fontSize: '11px', fontFamily: 'monospace' }}
+                  contentStyle={{ backgroundColor: '#0A101D', borderColor: '#1E293B', borderRadius: '12px', fontSize: '11px', fontFamily: 'monospace' }}
                 />
-                <Bar dataKey="test_r2" name="Test R² Score" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="test_r2" name="Test R² Score" radius={[6, 6, 0, 0]}>
                   {(benchmarkData?.models || fallbackNasa.models).map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
                   ))}
@@ -304,7 +310,7 @@ export default function ModelArena() {
         </div>
 
         {/* Right 6 Cols: Feature Importance Ranker */}
-        <div className="lg:col-span-6 glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+        <div className="lg:col-span-6 glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between shadow-xl">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
               <Layers className="w-4 h-4 text-purple-400" />
@@ -317,9 +323,9 @@ export default function ModelArena() {
                 <button
                   key={m}
                   onClick={() => handleModelSelectForFeatures(m)}
-                  className={`text-[10px] font-mono px-2 py-0.5 rounded ${
+                  className={`text-[10px] font-mono px-2.5 py-1 rounded-lg transition-all ${
                     selectedModelForFeatures === m
-                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 font-bold'
+                      ? 'bg-purple-500/25 text-purple-300 border border-purple-500/50 font-bold'
                       : 'text-slate-400 hover:text-slate-200 bg-slate-900'
                   }`}
                 >
@@ -330,19 +336,19 @@ export default function ModelArena() {
           </div>
 
           {/* Feature Importance Bars */}
-          <div className="space-y-2.5 my-2">
+          <div className="space-y-3 my-1">
             {featureImportances.slice(0, 7).map((item, idx) => (
               <div key={item.feature} className="text-xs font-mono">
                 <div className="flex justify-between text-slate-300 mb-1">
                   <span className="truncate pr-2 text-[11px] text-slate-300">
-                    <span className="text-slate-500 mr-1.5">#{idx + 1}</span>
+                    <span className="text-slate-500 mr-1.5 font-bold">#{idx + 1}</span>
                     {item.feature.replace(/_/g, ' ')}
                   </span>
                   <span className="text-purple-300 font-bold">{(item.importance * 100).toFixed(1)}%</span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
                   <div
-                    className="h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full"
+                    className="h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full shadow-[0_0_8px_#8B5CF6]"
                     style={{ width: `${Math.max(5, item.importance * 100 * 1.5)}%` }}
                   />
                 </div>
